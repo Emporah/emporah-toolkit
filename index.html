@@ -1,47 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emporah Toolkit</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Emporah Toolkit</h1>
-    <p>Calculate your take-home pay:</p>
 
-    <!-- Calculator Form -->
-    <form id="calculator-form">
-        <label for="income">Gross (Pre-Tax) Income (£):</label>
-        <input type="number" id="income" placeholder="Enter your gross income" required>
-        <select id="income-frequency">
-            <option value="yearly">Per Year</option>
-            <option value="monthly">Per Month</option>
-            <option value="weekly">Per Week</option>
-        </select>
-        <br><br>
+    <!-- Header -->
+    <header>
+        <!-- Hamburger Button -->
+        <button id="left-menu-burger-button" aria-label="Left Menu" aria-expanded="false" type="button">
+            <span class="hamburger-icon"></span>
+            <span class="hamburger-icon"></span>
+            <span class="hamburger-icon"></span>
+        </button>        
+        <h1>EMPORAH</h1>
+    </header>    
+    
+    <!-- Navigation Bar -->
+    <nav>
+        <ul id="navbar">
+            <li class="group-label" role="heading" aria-level="2">Calculator Tools</li>
+            <li><a href="/" id="nav-home" aria-label="Go to Home"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#" id="nav-calculator" aria-label="Go to Pay Calculator"><i class="fas fa-calculator"></i> Pay Calculator</a></li>
+        </ul>
+    </nav>
 
-        <label for="other-deductions">Other Deductions (£):</label>
-        <input type="number" id="other-deductions" placeholder="Enter additional deductions (if any)" value="0">
-        <br><br>
-
-        <button type="button" id="calculate-btn">Calculate</button>
-    </form>
-
-<!-- Results Section -->
-<h2 id="result-heading" style="display: none;">Results:</h2>
-<div id="result" style="display: none;">
-    <div id="result-controls" style="margin-bottom: 10px;">
-        <button type="button" id="view-yearly">Yearly</button>
-        <button type="button" id="view-monthly">Monthly</button>
-        <button type="button" id="view-weekly">Weekly</button>
-    </div>
-    <div id="result-content"></div>
-</div>
+    <!-- Main Content Section -->
+    <main id="main-content">
+        <h1>Welcome to Emporah</h1>
+        <p>Select a tool from the navigation bar to get started.</p>
+    </main>
 
     <script src="app.js"></script>
-    
 </body>
 
 </html>

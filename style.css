@@ -1,51 +1,156 @@
+/* Define Global Variables */
+:root {
+    --header-height: 52px; /* Define header height */
+}
+
+/* General Styling */
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
-}
-
-form {
-    margin: 20px auto;
-    width: 300px;
-    text-align: left;
+    margin: 0;
     font-family: Arial, sans-serif;
 }
 
-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-
-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
+/* Fixed Header */
+header {
+    position: fixed;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background: #0d0d0d;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-bottom: 1px solid #000;
+    height: var(--header-height);
+    top: 0;
+    width: 100%;
+    z-index: 110;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+/* Hamburger Button */
+#left-menu-burger-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 15px;
+    height: 12px;
+    background: none;
+    border: none;
     cursor: pointer;
+    padding: 0;
+    margin: 0 1.2rem;
 }
 
-button:hover {
-    background-color: #0056b3;
+.hamburger-icon {
+    width: 100%;
+    height: 2px;
+    background-color: #00b073;
+    border-radius: 1px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-#result {
-    margin-top: 20px;
-    font-family: Arial, sans-serif;
-    text-align: left;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 4px;
-    background-color: #f9f9f9;
+#left-menu-burger-button.active:hover .hamburger-icon {
+    background-color: #00b073;
+}
+
+#left-menu-burger-button.active .hamburger-icon {
+    background-color: #ffffff; /* Change color for active state */
+}
+
+/* Side Navigation (visible by default) */
+nav {
+    position: fixed;
+    top: var(--header-height); /* Adjusted to sit below the header */
+    left: 0;
+    height: calc(100vh - var(--header-height)); /* Full height minus header */
+    width: 240px;
+    background-color: #1a1a1a;
+    overflow-x: hidden;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    transform: translateX(0); /* Sidebar starts in view */
+    transition: transform 0.3s ease; /* Smooth transition for sliding effect */
+}
+
+/* When 'open' class is added: Sidebar slides into view */
+nav.open {
+    transform: translateX(-100%);
+}
+
+/* Navigation Items */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    padding: 0; /* Remove unnecessary padding */
+    font-size: 13px;
+    font-weight: 600;
+}
+
+nav ul li a {
+    display: flex;
+    align-items: center; /* Align icons and text vertically */
+    text-decoration: none; /* Remove underline from links */
+    color: #ffffff; /* White text */
+    padding: 10px 20px; /* Add consistent padding */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+    gap: 15px;
+}
+
+nav ul li a::before {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+nav ul li a:hover {
+    background-color: rgba(0, 176, 115, 0.5); /* Highlight effect on hover */
+}
+
+/* Specific Icons */
+#nav-home::before {
+    background-image: url('icons/home-icon.svg');
+}
+
+#nav-calculator::before {
+    background-image: url('icons/calculator-icon.svg');
+}
+
+/* Group Labels */
+.group-label {
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #00b073; /* Green color for labels */
+    padding: 10px 20px; /* Space around the label */
+    margin-top: 15px; /* Add spacing above group labels */
+}
+
+/* Navigation Hover Adjustment */
+nav ul li:hover > a {
+    background-color: rgba(0, 176, 115, 0.5); /* Make hover more prominent */
+}
+
+/* Main Content Area */
+main {
+    margin-left: 240px; /* Push content to the right */
+    padding: 20px; /* Spacing inside the content area */
+    padding-top: calc(var(--header-height)); /* Reference header height in padding-top */
+    background-color: #f4f4f9; /* Light grey background */
+    min-height: 100vh; /* Full height for content */
+    transition: margin-left 0.3s ease; /* Smooth transition */
+}
+
+/* When the sidebar is closed */
+main.sidebar-closed {
+    margin-left: 0; /* Remove the margin to fill the gap */
 }
