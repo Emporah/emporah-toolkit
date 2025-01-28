@@ -49,7 +49,7 @@ header h1 {
     height: 2px;
     background-color: #00b073;
     border-radius: 1px;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.3s ease, color 0.2s ease;
 }
 
 #left-menu-burger-button.active:hover .hamburger-icon {
@@ -103,6 +103,18 @@ nav ul li a {
     gap: 15px;
 }
 
+/* Default Icon Color: Slightly Darker Grey */
+nav ul li a i {
+    color: #808080; /* Slightly darker grey than white */
+    transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover Effect: Icon Color Transitions to White */
+nav ul li a:hover i {
+    color: #ffffff; /* White color on hover */
+    transform: scale(1.1); /* Scale icon to 110% */
+}
+
 nav ul li a::before {
     display: inline-block;
     width: 16px;
@@ -132,6 +144,7 @@ nav ul li a:hover {
     text-transform: uppercase;
     color: #00b073; /* Green color for labels */
     padding: 10px 20px; /* Space around the label */
+    letter-spacing: 0.7px;
     margin-top: 15px; /* Add spacing above group labels */
 }
 
