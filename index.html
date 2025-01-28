@@ -6,9 +6,42 @@
     <title>Emporah Toolkit</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Welcome to Emporah Toolkit</h1>
-    <p>What do you need help with?</p>
+    <h1>Emporah Toolkit</h1>
+    <p>Calculate your take-home pay:</p>
+
+    <!-- Calculator Form -->
+    <form id="calculator-form">
+        <label for="income">Gross (Pre-Tax) Income (£):</label>
+        <input type="number" id="income" placeholder="Enter your gross income" required>
+        <select id="income-frequency">
+            <option value="yearly">Per Year</option>
+            <option value="monthly">Per Month</option>
+            <option value="weekly">Per Week</option>
+        </select>
+        <br><br>
+
+        <label for="other-deductions">Other Deductions (£):</label>
+        <input type="number" id="other-deductions" placeholder="Enter additional deductions (if any)" value="0">
+        <br><br>
+
+        <button type="button" id="calculate-btn">Calculate</button>
+    </form>
+
+<!-- Results Section -->
+<h2 id="result-heading" style="display: none;">Results:</h2>
+<div id="result" style="display: none;">
+    <div id="result-controls" style="margin-bottom: 10px;">
+        <button type="button" id="view-yearly">Yearly</button>
+        <button type="button" id="view-monthly">Monthly</button>
+        <button type="button" id="view-weekly">Weekly</button>
+    </div>
+    <div id="result-content"></div>
+</div>
+
     <script src="app.js"></script>
+    
 </body>
+
 </html>
