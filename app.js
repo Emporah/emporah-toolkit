@@ -191,6 +191,8 @@ window.onload = () => {
     if (path === '/') {
         history.replaceState({ path: '/dashboard' }, '', '/dashboard');
         path = '/dashboard';
+    } else {
+        history.replaceState({ path: path }, '', path); // Preserve current path
     }
 
     console.log("Loading page on startup:", path);
