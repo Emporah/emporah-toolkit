@@ -45,6 +45,7 @@ function loadContent(page) {
             <h1>Welcome to Emporah</h1>
             <p>Select a tool from the navigation bar to get started.</p>
         `;
+        
     } else if (page === '/pay-calculator') {
         pageContent = `
             <h1>Pay Calculator</h1>
@@ -185,6 +186,13 @@ window.onpopstate = (event) => {
 // Ensure Correct Page Loads on Refresh or Direct Visit
 window.onload = () => {
     let path = window.location.pathname;
+
+    // Ensure users land on /dashboard by default
+    if (path === '/' || path === '/home') {
+        path = '/dashboard';
+        history.replaceState({ path: '/dashboard' }, '', '/dashboard');
+    }
+
     console.log("Loading page on startup:", path);
     navigateTo(path, false);
 };
