@@ -19,7 +19,8 @@ function navigateTo(page) {
     console.log("Navigating to:", page);
     console.log("Main content before update:", mainContent.innerHTML);
 
-    history.pushState({}, '', page);
+    // Ensure a proper history entry is created
+    history.pushState({ path: page }, '', page);
 
     let pageContent = '';
 
@@ -159,6 +160,10 @@ window.onpopstate = (event) => {
     let path = window.location.pathname;
     console.log("Handling back/forward navigation:", path);
 
-    // Ensure navigateTo properly handles forward navigation
-    navigateTo(path);
+    // Ensure forward navigation also works
+    if (event.state) {
+        navigateTo(event.state.path);
+    } else {
+        navigateTo(path);
+    }
 };
