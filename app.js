@@ -15,12 +15,13 @@ burgerButton.addEventListener('click', () => {
 });
 
 // Function to Handle Navigation and URL Updates
-function navigateTo(page) {
+function navigateTo(page, addToHistory = true) {
     console.log("Navigating to:", page);
-    console.log("Main content before update:", mainContent.innerHTML);
 
-    // Ensure a proper history entry is created
-    history.pushState({ path: page }, '', page);
+    // Prevent duplicate history entries
+    if (addToHistory && window.location.pathname !== page) {
+        history.pushState({ path: page }, '', page);
+    }
 
     let pageContent = '';
 
@@ -62,8 +63,8 @@ function navigateTo(page) {
     }
 
     mainContent.innerHTML = pageContent;
-    
-    // Ensure event listeners are reattached after content update
+
+    // Reattach event listeners after content update
     attachCalculatorFunctionality();
 }
 
@@ -143,6 +144,13 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// Handle Browser Back/Forward Navigation
+window.onpopstate = (event) => {
+    let path = event.state?.path || window.location.pathname;
+    console.log("Handling back/forward navigation:", path);
+    navigateTo(path, false); // Avoid adding duplicate history entries
+};
+
 // Fix window.onload for Live Server
 window.onload = () => {
     let params = new URLSearchParams(window.location.search);
@@ -150,19 +158,6 @@ window.onload = () => {
 
     if (path === "/" || path.endsWith("index.html")) {
         navigateTo("/home");
-    } else {
-        navigateTo(path);
-    }
-};
-
-// Handle Browser Back/Forward Navigation
-window.onpopstate = (event) => {
-    let path = window.location.pathname;
-    console.log("Handling back/forward navigation:", path);
-
-    // Ensure forward navigation also works
-    if (event.state) {
-        navigateTo(event.state.path);
     } else {
         navigateTo(path);
     }
