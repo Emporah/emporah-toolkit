@@ -17,20 +17,14 @@ burgerButton.addEventListener('click', () => {
 // Function to Handle Navigation and URL Updates
 function navigateTo(page, addToHistory = true) {
     console.log("Navigating to:", page);
-    
-    // Check if `addToHistory` is true and path isn't a duplicate
-    if (addToHistory) {
-        console.log("Before pushState - Current Path:", window.location.pathname);
-        console.log("Attempting pushState for:", page);
 
+    if (addToHistory && window.location.pathname !== page) {
         try {
-            history.pushState({ path: page }, '', page.replace(/\?.*$/, ''));
+            history.pushState({ path: page }, '', page);
             console.log("pushState SUCCESS:", window.location.pathname);
         } catch (error) {
             console.error("pushState FAILED:", error);
         }
-    } else {
-        console.log("Skipping pushState for:", page);
     }
 
     loadContent(page);
@@ -188,5 +182,10 @@ window.onload = () => {
     let path = window.location.pathname;
 
     console.log("Loading page on startup:", path);
-    loadContent(path); // Load the correct page without forcing /dashboard
+    loadContent(path); // Load the correct content
+
+    // Ensure that history reflects the correct path without modifying it unnecessarily
+    if (!history.state || history.state.path !== path) {
+        history.replaceState({ path: path }, '', path);
+    }
 };
