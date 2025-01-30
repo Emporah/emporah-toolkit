@@ -187,14 +187,6 @@ window.onpopstate = (event) => {
 window.onload = () => {
     let path = window.location.pathname;
 
-    // Only redirect if the user is on `/`, but keep other pages intact
-    if (path === '/') {
-        history.replaceState({ path: '/dashboard' }, '', '/dashboard');
-        path = '/dashboard';
-    } else {
-        history.replaceState({ path: path }, '', path); // Preserve current path
-    }
-
     console.log("Loading page on startup:", path);
-    loadContent(path); // Load the correct page
+    loadContent(path); // Load the correct page without forcing /dashboard
 };
