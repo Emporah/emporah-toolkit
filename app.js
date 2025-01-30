@@ -4,7 +4,7 @@ const burgerButton = document.getElementById('left-menu-burger-button');
 const sidebar = document.querySelector('nav');
 const mainContent = document.getElementById('main-content');
 
-// 🚀 Toggle Sidebar Functionality
+// Toggle Sidebar Functionality
 burgerButton.addEventListener('click', () => {
     sidebar.classList.toggle('open');
     mainContent.classList.toggle('sidebar-closed');
@@ -14,17 +14,22 @@ burgerButton.addEventListener('click', () => {
     burgerButton.classList.toggle('active');
 });
 
-// 🚀 Function to Handle Navigation
+// Function to Handle Navigation and URL Updates
 function navigateTo(page) {
+    console.log("Navigating to:", page);
+    console.log("Main content before update:", mainContent.innerHTML);
+
     history.pushState({}, '', page);
 
+    let pageContent = '';
+
     if (page === '/' || page === '/home') {
-        mainContent.innerHTML = `
+        pageContent = `
             <h1>Welcome to Emporah</h1>
             <p>Select a tool from the navigation bar to get started.</p>
         `;
     } else if (page === '/pay-calculator') {
-        mainContent.innerHTML = `
+        pageContent = `
             <h1>Pay Calculator</h1>
             <form id="calculator-form">
                 <label for="income">Gross (Pre-Tax) Income (£):</label>
@@ -53,24 +58,105 @@ function navigateTo(page) {
                 <div id="result-content"></div>
             </div>
         `;
-        attachCalculatorFunctionality();
+    }
+
+    mainContent.innerHTML = pageContent;
+    
+    // Ensure event listeners are reattached after content update
+    attachCalculatorFunctionality();
+}
+
+// Function to Attach Event Listeners for Calculator
+function attachCalculatorFunctionality() {
+    const calculateButton = document.getElementById('calculate-btn');
+
+    if (calculateButton) {
+        calculateButton.addEventListener('click', () => {
+            const income = parseFloat(document.getElementById('income').value) || 0;
+            const deductions = parseFloat(document.getElementById('other-deductions').value) || 0;
+            const frequency = document.getElementById('income-frequency').value;
+
+            if (income <= 0) {
+                alert('Please enter a valid income amount.');
+                return;
+            }
+
+            let netIncome = income - deductions;
+
+            let yearly, monthly, weekly;
+            if (frequency === 'yearly') {
+                yearly = netIncome;
+                monthly = yearly / 12;
+                weekly = yearly / 52;
+            } else if (frequency === 'monthly') {
+                monthly = netIncome;
+                yearly = monthly * 12;
+                weekly = yearly / 52;
+            } else if (frequency === 'weekly') {
+                weekly = netIncome;
+                yearly = weekly * 52;
+                monthly = yearly / 12;
+            }
+
+            // Display results
+            document.getElementById('result-heading').style.display = 'block';
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('result-content').innerHTML = `
+                <p id="yearly-result"><strong>Yearly:</strong> £${yearly.toFixed(2)}</p>
+                <p id="monthly-result"><strong>Monthly:</strong> £${monthly.toFixed(2)}</p>
+                <p id="weekly-result"><strong>Weekly:</strong> £${weekly.toFixed(2)}</p>
+            `;
+
+            // Attach event listeners for result view buttons
+            attachResultViewButtons(yearly, monthly, weekly);
+        });
     }
 }
 
-// 🚀 Add Event Listeners When the Page Loads
-window.onload = () => {
-    document.querySelectorAll('nav a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            navigateTo(e.currentTarget.getAttribute('href')); // Ensures correct navigation
-        });
+// Function to Handle View Switching
+function attachResultViewButtons(yearly, monthly, weekly) {
+    document.getElementById('view-yearly').addEventListener('click', () => {
+        updateResultView(yearly, 'Yearly');
     });
 
-    // Load the correct page when opening the site directly
-    navigateTo(window.location.pathname);
+    document.getElementById('view-monthly').addEventListener('click', () => {
+        updateResultView(monthly, 'Monthly');
+    });
+
+    document.getElementById('view-weekly').addEventListener('click', () => {
+        updateResultView(weekly, 'Weekly');
+    });
+}
+
+// Function to Update Result View
+function updateResultView(amount, label) {
+    document.getElementById('result-content').innerHTML = `<p><strong>${label}:</strong> £${amount.toFixed(2)}</p>`;
+}
+
+// Handle Navigation Clicks
+document.addEventListener('click', (e) => {
+    const link = e.target.closest('nav a');
+    if (link) {
+        e.preventDefault();
+        navigateTo(link.getAttribute('href'));
+    }
+});
+
+// Fix window.onload for Live Server
+window.onload = () => {
+    let params = new URLSearchParams(window.location.search);
+    let path = params.get('path') || window.location.pathname;
+
+    if (path === "/" || path.endsWith("index.html")) {
+        navigateTo("/home");
+    } else {
+        navigateTo(path);
+    }
 };
 
-// 🚀 Handle Browser Back/Forward Buttons
+// Handle Browser Back/Forward Navigation
 window.onpopstate = () => {
-    navigateTo(window.location.pathname);
+    let path = window.location.pathname;
+    console.log("Handling back/forward navigation:", path);
+    navigateTo(path);
 };

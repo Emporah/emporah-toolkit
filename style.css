@@ -9,6 +9,18 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* Header Logo */
+#logo-link {
+    display: flex;
+    align-items: center;
+    height: 100%; /* Match the header height */
+    margin-bottom: 2.5px;
+}
+
+#header-logo {
+    width: 100px;
+}
+
 /* Fixed Header */
 header {
     position: fixed;
