@@ -127,26 +127,8 @@ nav ul li a:hover i {
     transform: scale(1.1); /* Scale icon to 110% */
 }
 
-nav ul li a::before {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-}
-
 nav ul li a:hover {
     background-color: rgba(0, 176, 115, 0.5); /* Highlight effect on hover */
-}
-
-/* Specific Icons */
-#nav-home::before {
-    background-image: url('icons/home-icon.svg');
-}
-
-#nav-calculator::before {
-    background-image: url('icons/calculator-icon.svg');
 }
 
 /* Group Labels */

@@ -16,30 +16,20 @@ burgerButton.addEventListener('click', () => {
 
 // Function to Handle Navigation and URL Updates
 function navigateTo(page) {
-    console.log("Navigating to:", page);
     window.location.hash = page; // Only modify hash, no pushState
     loadContent(page);
 }
 
-// Load content on page load
-window.onload = () => {
-    let path = window.location.hash.replace("#", "") || "/dashboard"; 
-    console.log("Loading page on startup:", path);
-    loadContent(path);
-};
+window.onload = () => loadContent(window.location.hash.replace("#", "") || "/dashboard");
 
 // Handle browser back/forward navigation
-window.onhashchange = () => {
-    let path = window.location.hash.replace("#", "");
-    console.log("Handling back/forward navigation:", path);
-    loadContent(path);
-};
+window.onhashchange = () => loadContent(window.location.hash.replace("#", ""));
 
 // Function to Load Content Based on the Path
 function loadContent(page) {
     let pageContent = '';
 
-    if (page === '/' || page === '/dashboard') {
+    if (page === '/dashboard') {
         pageContent = `
             <h1>Welcome to Emporah</h1>
             <p>Select a tool from the navigation bar to get started.</p>
