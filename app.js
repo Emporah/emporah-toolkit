@@ -196,12 +196,6 @@ window.onload = () => {
     }
 };
 
-// Prevent full page reload and reload content manually
-window.addEventListener('beforeunload', (event) => {
-    event.preventDefault(); // Prevent default refresh
-    event.returnValue = ''; // Required for some browsers
-});
-
 // Detect and handle F5 keypress to fake a refresh
 window.addEventListener('keydown', (event) => {
     if (event.key === 'F5' || (event.ctrlKey && event.key === 'r')) {
