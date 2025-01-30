@@ -187,12 +187,12 @@ window.onpopstate = (event) => {
 window.onload = () => {
     let path = window.location.pathname;
 
-    // Ensure users land on /dashboard by default
-    if (path === '/' || path === '/home') {
-        path = '/dashboard';
+    // Only redirect if the user is on `/`, but keep other pages intact
+    if (path === '/') {
         history.replaceState({ path: '/dashboard' }, '', '/dashboard');
+        path = '/dashboard';
     }
 
     console.log("Loading page on startup:", path);
-    navigateTo(path, false);
+    loadContent(path); // Load the correct page
 };
