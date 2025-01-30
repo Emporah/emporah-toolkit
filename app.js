@@ -155,8 +155,10 @@ window.onload = () => {
 };
 
 // Handle Browser Back/Forward Navigation
-window.onpopstate = () => {
+window.onpopstate = (event) => {
     let path = window.location.pathname;
     console.log("Handling back/forward navigation:", path);
+
+    // Ensure navigateTo properly handles forward navigation
     navigateTo(path);
 };
