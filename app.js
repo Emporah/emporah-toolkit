@@ -19,10 +19,15 @@ function navigateTo(page, addToHistory = true) {
     console.log("Navigating to:", page);
 
     // Prevent duplicate history entries
-    if (addToHistory && window.location.pathname !== page) {
+    if (addToHistory && history.state?.path !== page) {
         history.pushState({ path: page }, '', page);
     }
 
+    loadContent(page);
+}
+
+// Function to Load Content Based on the Path
+function loadContent(page) {
     let pageContent = '';
 
     if (page === '/' || page === '/home') {
@@ -64,7 +69,7 @@ function navigateTo(page, addToHistory = true) {
 
     mainContent.innerHTML = pageContent;
 
-    // Reattach event listeners after content update
+    // Reattach event listeners
     attachCalculatorFunctionality();
 }
 
@@ -148,17 +153,12 @@ document.addEventListener('click', (e) => {
 window.onpopstate = (event) => {
     let path = event.state?.path || window.location.pathname;
     console.log("Handling back/forward navigation:", path);
-    navigateTo(path, false); // Avoid adding duplicate history entries
+    loadContent(path); // Avoid adding duplicate history entries
 };
 
-// Fix window.onload for Live Server
+// Ensure Correct Page Loads on Refresh or Direct Visit
 window.onload = () => {
-    let params = new URLSearchParams(window.location.search);
-    let path = params.get('path') || window.location.pathname;
-
-    if (path === "/" || path.endsWith("index.html")) {
-        navigateTo("/home");
-    } else {
-        navigateTo(path);
-    }
+    let path = window.location.pathname;
+    console.log("Loading page on startup:", path);
+    navigateTo(path, false);
 };
