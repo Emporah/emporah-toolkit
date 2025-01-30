@@ -40,7 +40,7 @@ function navigateTo(page, addToHistory = true) {
 function loadContent(page) {
     let pageContent = '';
 
-    if (page === '/' || page === '/home') {
+    if (page === '/' || page === '/dashboard') {
         pageContent = `
             <h1>Welcome to Emporah</h1>
             <p>Select a tool from the navigation bar to get started.</p>
@@ -75,12 +75,28 @@ function loadContent(page) {
                 <div id="result-content"></div>
             </div>
         `;
+
+        // Reattach calculator functionality after loading content
+        setTimeout(() => attachCalculatorFunctionality(), 0);
+
+    } else if (page === '/budget-planner') {
+        pageContent = `
+            <h1>Budget Planner</h1>
+            <p>Coming soon...</p>
+        `;
+    } else if (page === '/savings-tracker') {
+        pageContent = `
+            <h1>Savings Tracker</h1>
+            <p>Coming soon...</p>
+        `;
+    } else if (page === '/investment-calculator') {
+        pageContent = `
+            <h1>Investment Calculator</h1>
+            <p>Coming soon...</p>
+        `;
     }
 
     mainContent.innerHTML = pageContent;
-
-    // Reattach event listeners
-    attachCalculatorFunctionality();
 }
 
 // Function to Attach Event Listeners for Calculator
