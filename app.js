@@ -17,14 +17,20 @@ burgerButton.addEventListener('click', () => {
 // Function to Handle Navigation and URL Updates
 function navigateTo(page, addToHistory = true) {
     console.log("Navigating to:", page);
+    
+    // Check if `addToHistory` is true and path isn't a duplicate
+    if (addToHistory) {
+        console.log("Before pushState - Current Path:", window.location.pathname);
+        console.log("Attempting pushState for:", page);
 
-    if (addToHistory && window.location.pathname !== page) {
         try {
-            history.pushState({ path: page }, '', page);
+            history.pushState({ path: page }, '', page.replace(/\?.*$/, ''));
             console.log("pushState SUCCESS:", window.location.pathname);
         } catch (error) {
             console.error("pushState FAILED:", error);
         }
+    } else {
+        console.log("Skipping pushState for:", page);
     }
 
     loadContent(page);
@@ -189,3 +195,20 @@ window.onload = () => {
         history.replaceState({ path: path }, '', path);
     }
 };
+
+// Prevent full page reload and reload content manually
+window.addEventListener('beforeunload', (event) => {
+    event.preventDefault(); // Prevent default refresh
+    event.returnValue = ''; // Required for some browsers
+});
+
+// Detect and handle F5 keypress to fake a refresh
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'F5' || (event.ctrlKey && event.key === 'r')) {
+        event.preventDefault(); // Stop default reload
+        console.log("Fake refresh triggered");
+
+        let path = window.location.pathname; // Keep user on the same page
+        navigateTo(path, false); // Manually reload content
+    }
+});
