@@ -24,7 +24,7 @@ function navigateTo(page, addToHistory = true) {
         console.log("Attempting pushState for:", page);
 
         try {
-            history.pushState({ path: page }, '', page);
+            history.pushState({ path: page }, '', page.replace(/\?.*$/, ''));
             console.log("pushState SUCCESS:", window.location.pathname);
         } catch (error) {
             console.error("pushState FAILED:", error);
