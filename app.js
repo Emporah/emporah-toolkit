@@ -4,6 +4,41 @@ const burgerButton = document.getElementById('left-menu-burger-button');
 const sidebar = document.querySelector('nav');
 const mainContent = document.getElementById('main-content');
 
+function updateBreadcrumb(page) {
+    const breadcrumbNav = document.getElementById("breadcrumb-nav");
+
+    if (!breadcrumbNav) {
+        console.error("Error: breadcrumb-nav element not found.");
+        return;
+    }
+
+    // Hide breadcrumb on the welcome page
+    if (page === '/welcome') {
+        breadcrumbNav.innerHTML = ''; // Clear it
+        return;
+    }
+
+    // Define page titles
+    const pageTitles = {
+        "/dashboard": "Dashboard",
+        "/pay-calculator": "Pay Calculator",
+        "/budget-planner": "Budget Planner",
+        "/savings-tracker": "Savings Tracker",
+        "/investment-calculator": "Investment Calculator"
+    };
+
+    let breadcrumbHTML = `<nav class="breadcrumb">
+        <a href="#/welcome" onclick="navigateTo('/welcome')">Home</a>`;
+
+    if (pageTitles[page]) {
+        breadcrumbHTML += ` <span>›</span> <span>${pageTitles[page]}</span>`;
+    }
+
+    breadcrumbHTML += `</nav>`;
+
+    breadcrumbNav.innerHTML = breadcrumbHTML;
+}
+
 // Toggle Sidebar Functionality
 burgerButton.addEventListener('click', () => {
     sidebar.classList.toggle('open');
@@ -20,25 +55,76 @@ function navigateTo(page) {
     loadContent(page);
 }
 
-window.onload = () => loadContent(window.location.hash.replace("#", "") || "/dashboard");
+window.onload = () => {
+    let path = window.location.hash.replace("#", "") || "/welcome"; // Default is now /welcome
+    loadContent(path);
+};
 
 // Handle browser back/forward navigation
 window.onhashchange = () => loadContent(window.location.hash.replace("#", ""));
 
 // Content Functionality
 function loadContent(page) {
+    let mainContent = document.getElementById("main-content");
+    if (!mainContent) {
+        console.error("Error: main-content element not found!");
+        return;
+    }
+
+    // Ensure breadcrumb-nav exists inside main-content
+    if (!document.getElementById("breadcrumb-nav")) {
+        mainContent.innerHTML = '<div id="breadcrumb-nav"></div>' + mainContent.innerHTML;
+    }
+
     let pageContent = '';
 
-    if (page === '/dashboard') {
+    if (page === '/welcome') { // Default landing page
         pageContent = `
-            <h1>Welcome to Emporah</h1>
-            <p>Select a tool from the navigation bar to get started.</p>
+            <div class="marketing-widget">
+                <span class="title"><b>Welcome to Emporah</b></span>
+                <span class="description">Select a tool from the menu to your left or go to your dashboard to get started.</span>
+                <button class="dashboard-btn" onclick="navigateTo('/dashboard')">Go to Dashboard</button>
+            </div>
         `;
-
-    } else if (page === '/pay-calculator') {
+    } 
+    else if (page === '/dashboard') { // Dashboard
         pageContent = `
-            <h1>Pay Calculator</h1>
-            <p>IN PROGRESS...</p>
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Dashboard</h1>
+                    <p class="description">Welcome to your Emporah Dashboard. This is your central hub for managing and accessing financial tools quickly.</p>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-tile" onclick="navigateTo('/pay-calculator')">
+                    <i class="fas fa-calculator"></i>
+                    <span>Pay Calculator</span>
+                </div>
+                <div class="dashboard-tile" onclick="navigateTo('/budget-planner')">
+                    <i class="fas fa-wallet"></i>
+                    <span>Budget Planner</span>
+                </div>
+                <div class="dashboard-tile" onclick="navigateTo('/savings-tracker')">
+                    <i class="fas fa-piggy-bank"></i>
+                    <span>Savings Tracker</span>
+                </div>
+                <div class="dashboard-tile" onclick="navigateTo('/investment-calculator')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Investment Calculator</span>
+                </div>
+            </div>
+        `;
+    } 
+    else if (page === '/pay-calculator') { // Pay Calculator
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Pay Calculator</h1>
+                    <p class="description">IN PROGRESS...</p>
+                </div>
+            </div>
+            
             <form id="calculator-form">
                 <label for="income">Gross (Pre-Tax) Income (£):</label>
                 <input type="number" id="income" placeholder="Enter your gross income" required>
@@ -67,20 +153,54 @@ function loadContent(page) {
             </div>
         `;
 
-        // Attach functionality after content loads
         setTimeout(() => attachCalculatorFunctionality(), 0);
-
-    } else if (page === '/budget-planner') {
-        pageContent = `<h1>Budget Planner</h1><p>Coming soon...</p>`;
-    } else if (page === '/savings-tracker') {
-        pageContent = `<h1>Savings Tracker</h1><p>Coming soon...</p>`;
-    } else if (page === '/investment-calculator') {
-        pageContent = `<h1>Investment Calculator</h1><p>Coming soon...</p>`;
-    } else {
-        pageContent = `<h1>Page Not Found</h1><p>The requested page does not exist.</p>`;
+    } 
+    else if (page === '/budget-planner') {
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Budget Planner</h1>
+                    <p class="description">Coming soon...</p>
+                </div>
+            </div>
+        `;
+    } 
+    else if (page === '/savings-tracker') {
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Savings Tracker</h1>
+                    <p class="description">Coming soon...</p>
+                </div>
+            </div>
+        `;
+    } 
+    else if (page === '/investment-calculator') {
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Investment Calculator</h1>
+                    <p class="description">Coming soon...</p>
+                </div>
+            </div>
+        `;
+    } 
+    else {
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Page Not Found</h1>
+                    <p class="description">The requested page does not exist.</p>
+                </div>
+            </div>
+        `;
     }
 
-    mainContent.innerHTML = pageContent;
+    // Update only the content inside main-content, preserving breadcrumb-nav
+    document.getElementById("breadcrumb-nav").innerHTML = ''; // Clear breadcrumb for welcome page
+    mainContent.innerHTML = `<div id="breadcrumb-nav"></div>` + pageContent;
+
+    updateBreadcrumb(page);
 }
 
 // Function to Attach Event Listeners for Pay Calculator

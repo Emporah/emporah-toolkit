@@ -69,22 +69,22 @@ header h1 {
 }
 
 #left-menu-burger-button.active .hamburger-icon {
-    background-color: #ffffff; /* Change color for active state */
+    background-color: #ffffff;
 }
 
 /* Side Navigation (visible by default) */
 nav {
     position: fixed;
-    top: var(--header-height); /* Adjusted to sit below the header */
+    top: var(--header-height);
     left: 0;
-    height: calc(100vh - var(--header-height)); /* Full height minus header */
+    height: calc(100vh - var(--header-height));
     width: 240px;
     background-color: #1a1a1a;
     overflow-x: hidden;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     z-index: 100;
-    transform: translateX(0); /* Sidebar starts in view */
-    transition: transform 0.3s ease; /* Smooth transition for sliding effect */
+    transform: translateX(0);
+    transition: transform 0.3s ease;
 }
 
 /* When 'open' class is added: Sidebar slides into view */
@@ -100,35 +100,35 @@ nav ul {
 }
 
 nav ul li {
-    padding: 0; /* Remove unnecessary padding */
+    padding: 0;
     font-size: 13px;
     font-weight: 600;
 }
 
 nav ul li a {
     display: flex;
-    align-items: center; /* Align icons and text vertically */
-    text-decoration: none; /* Remove underline from links */
-    color: #ffffff; /* White text */
-    padding: 10px 20px; /* Add consistent padding */
-    transition: background-color 0.3s ease; /* Smooth hover effect */
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
     gap: 15px;
 }
 
 /* Default Icon Color: Slightly Darker Grey */
 nav ul li a i {
-    color: #808080; /* Slightly darker grey than white */
-    transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effect */
+    color: #808080;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 /* Hover Effect: Icon Color Transitions to White */
 nav ul li a:hover i {
-    color: #ffffff; /* White color on hover */
-    transform: scale(1.1); /* Scale icon to 110% */
+    color: #ffffff;
+    transform: scale(1.1);
 }
 
 nav ul li a:hover {
-    background-color: rgba(0, 176, 115, 0.5); /* Highlight effect on hover */
+    background-color: rgba(0, 176, 115, 0.5);
 }
 
 /* Group Labels */
@@ -136,28 +136,170 @@ nav ul li a:hover {
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
-    color: #00b073; /* Green color for labels */
-    padding: 10px 20px; /* Space around the label */
+    color: #00b073;
+    padding: 10px 20px;
     letter-spacing: 0.7px;
-    margin-top: 15px; /* Add spacing above group labels */
+    margin-top: 15px;
 }
 
 /* Navigation Hover Adjustment */
 nav ul li:hover > a {
-    background-color: rgba(0, 176, 115, 0.5); /* Make hover more prominent */
+    background-color: rgba(0, 176, 115, 0.5);
 }
 
 /* Main Content Area */
 main {
-    margin-left: 240px; /* Push content to the right */
-    padding: 20px; /* Spacing inside the content area */
-    padding-top: calc(var(--header-height)); /* Reference header height in padding-top */
-    background-color: #f4f4f9; /* Light grey background */
-    min-height: 100vh; /* Full height for content */
-    transition: margin-left 0.3s ease; /* Smooth transition */
+    margin-left: 240px;
+    padding: 0 1.25rem;
+    padding-top: calc(var(--header-height));
+    background-color: black;
+    color: white;
+    min-height: calc(100vh - var(--header-height));
+    transition: margin-left 0.3s ease;
+    overflow: hidden;
 }
 
 /* When the sidebar is closed */
 main.sidebar-closed {
-    margin-left: 0; /* Remove the margin to fill the gap */
+    margin-left: 0; 
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* Individual Dashboard Tile */
+.dashboard-tile {
+    background: #1a1a1a;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.dashboard-tile:hover {
+    background: #00b073;
+}
+
+/* Dashboard Tile Icons */
+.dashboard-tile i {
+    font-size: 30px;
+}
+
+/* Dashboard Tile Text */
+.dashboard-tile span {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Welcome Marketing Widget */
+.marketing-widget {
+    background: linear-gradient(135deg, rgba(0, 176, 115, 0.15), rgba(0, 0, 0, 0.8));
+    padding: 24px;
+    margin-bottom: 0;
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.marketing-widget .description {
+    max-width: 360px;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 8px 0;
+    max-height: 70px;
+    overflow: hidden;
+}
+
+.description {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+}
+
+/* Dashboard Button */
+.dashboard-btn {
+    width:fit-content;
+    align-self: flex-start;
+    background-color: #00b073;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-top: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    border: none;
+    box-shadow: none;
+}
+
+.dashboard-btn:hover {
+    background-color: #009060;
+}
+
+/* Generic Header Styling */
+.generic-header {
+    margin: 40px 0 40px 0;
+}
+
+.header-content {
+    width: 60%;
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb {
+    display: flex;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #00b073;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+#breadcrumb-nav {
+    position: absolute;  /* Ensure it doesn’t interfere with sidebar */
+    top: var(--header-height); /* Align below header */
+    left: 250px; /* Offset from the sidebar */
+    width: calc(100% - 250px); /* Prevent overlap with sidebar */
+    padding: 10px;
+    background: black;
+    z-index: 10; /* Ensure it stays on top */
+}
+
+#breadcrumb-nav a {
+    text-decoration: none;
+    color: #00b073;
+}
+
+#breadcrumb-nav a:hover {
+    text-decoration: underline;
 }

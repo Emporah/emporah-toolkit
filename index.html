@@ -23,12 +23,12 @@
             <span class="hamburger-icon"></span>
         </button>        
             <!-- Logo -->
-        <a href="#/dashboard" id="logo-link" onclick="navigateTo('/dashboard'); return false;">
+        <a href="#/welcome" id="logo-link" onclick="navigateTo('/welcome'); return false;">
             <img src="assets/header_logo.svg" alt="Emporah Logo" id="header-logo">
         </a>            
     </header>
     
-    <!-- Navigation Bar -->
+    <!-- Side Scroll Navigation -->
     <nav>
         <ul id="navbar">
             <li><a href="#/dashboard" id="nav-dashboard" aria-label="Go to Dashboard"><i class="fas fa-tachometer"></i> Dashboard</a></li>
@@ -41,13 +41,17 @@
         </ul>
     </nav>
 
-    <!-- Main Content Section -->
+    <!-- Main Content -->
     <main id="main-content">
-        <h1>Welcome to Emporah</h1>
-        <p>Select a tool from the navigation bar to get started.</p>
+        <div id="breadcrumb-nav"></div>
+        <div class="marketing-widget">
+                <span class="title"><b>Welcome to Emporah</b></span>
+                <span class="description">Select a tool from the menu to your left or go to your dashboard to get started.</span>
+                <button class="dashboard-btn" onclick="navigateTo('/dashboard')">Go to Dashboard</button>
+        </div>
     </main>
 
     <script src="app.js"></script>
-</body>
 
+</body>
 </html>
