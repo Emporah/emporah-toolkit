@@ -200,6 +200,25 @@ function loadContent(page) {
     document.getElementById("breadcrumb-nav").innerHTML = ''; // Clear breadcrumb for welcome page
     mainContent.innerHTML = `<div id="breadcrumb-nav"></div>` + pageContent;
 
+    //Footer
+    mainContent.innerHTML += `
+        <footer id="site-footer">
+            <img src="assets/header_logo.svg" alt="Emporah Logo" id="footer-logo">
+            <div class="footer-info-links">
+                <a class="link">About</a>
+                <a class="link">Contact</a>
+                <a class="link">Help Centre</a>
+            </div>
+            <div class="footer-legal-links">
+                <a class="link">Terms</a>
+                <a class="link">Privacy Policy</a>
+            </div>
+            <div class="footer-legal-info"><a class="link">&copy; <span id="footer-year"></span> Emporah. All rights reserved.</a></div>
+        </footer>
+    `;
+
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+
     updateBreadcrumb(page);
 }
 

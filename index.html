@@ -21,23 +21,22 @@
             <span class="hamburger-icon"></span>
             <span class="hamburger-icon"></span>
             <span class="hamburger-icon"></span>
-        </button>        
-            <!-- Logo -->
+        </button>
+        <!-- Logo -->
         <a href="#/welcome" id="logo-link" onclick="navigateTo('/welcome'); return false;">
             <img src="assets/header_logo.svg" alt="Emporah Logo" id="header-logo">
-        </a>            
+        </a>
     </header>
-    
+
     <!-- Side Scroll Navigation -->
     <nav>
         <ul id="navbar">
-            <li><a href="#/dashboard" id="nav-dashboard" aria-label="Go to Dashboard"><i class="fas fa-tachometer"></i> Dashboard</a></li>
-
+            <li><a href="#/dashboard" id="nav-dashboard" aria-label="Go to Dashboard"><i class="fas fa-tachometer"></i>Dashboard</a></li>
             <li class="group-label" role="heading" aria-level="2">Quick Links</li>
             <li><a href="#/pay-calculator" id="nav-calculator" aria-label="Go to Pay Calculator"><i class="fas fa-calculator"></i> Pay Calculator</a></li>
             <li><a href="#/budget-planner" id="nav-budget" aria-label="Go to Budget Planner"><i class="fas fa-wallet"></i> Budget Planner</a></li>
             <li><a href="#/savings-tracker" id="nav-savings" aria-label="Go to Savings Tracker"><i class="fas fa-piggy-bank"></i> Savings Tracker</a></li>
-            <li><a href="#/investment-calculator" id="nav-investment" aria-label="Go to Investment Calculator"><i class="fas fa-chart-line"></i> Investment Calculator</a></li>                 
+            <li><a href="#/investment-calculator" id="nav-investment" aria-label="Go to Investment Calculator"><i class="fas fa-chart-line"></i> Investment Calculator</a></li>
         </ul>
     </nav>
 
@@ -45,13 +44,32 @@
     <main id="main-content">
         <div id="breadcrumb-nav"></div>
         <div class="marketing-widget">
-                <span class="title"><b>Welcome to Emporah</b></span>
-                <span class="description">Select a tool from the menu to your left or go to your dashboard to get started.</span>
-                <button class="dashboard-btn" onclick="navigateTo('/dashboard')">Go to Dashboard</button>
+            <span class="title"><b>Welcome to Emporah</b></span>
+            <span class="description">Select a tool from the menu to your left or go to your dashboard to get started.</span>
+            <button class="dashboard-btn" onclick="navigateTo('/dashboard')">Go to Dashboard</button>
         </div>
+
+        <!-- Footer -->
+        <footer id="site-footer">
+            <img src="assets/header_logo.svg" alt="Emporah Logo" id="footer-logo">
+            <div class="footer-info-links">
+                <a class="link">About</a>
+                <a class="link">Contact</a>
+                <a class="link">Help Centre</a>
+            </div>
+            <div class="footer-legal-links">
+                <a class="link">Terms</a>
+                <a class="link">Privacy Policy</a>
+            </div>
+            <div class="footer-legal-info"><a class="link">&copy; <span id="footer-year"></span> Emporah. All rights reserved.</a></div>
+        </footer>
+        <script>
+            document.getElementById("footer-year").textContent = new Date().getFullYear();
+        </script>
     </main>
 
     <script src="app.js"></script>
 
 </body>
+
 </html>
