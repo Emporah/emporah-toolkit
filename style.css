@@ -7,6 +7,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
+    background-color: #000;
 }
 
 /* Header Logo */
@@ -80,7 +81,6 @@ nav {
     height: calc(100vh - var(--header-height));
     width: 240px;
     background-color: #1a1a1a;
-    overflow-x: hidden;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     z-index: 100;
     transform: translateX(0);
@@ -169,7 +169,6 @@ main.sidebar-closed {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
-    margin-top: 1rem;
     text-align: center;
 }
 
@@ -177,30 +176,39 @@ main.sidebar-closed {
 .dashboard-tile {
     background: #1a1a1a;
     color: #ffffff;
-    padding: 20px;
+    padding: 30px 20px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .dashboard-tile:hover {
-    background: #00b073;
+    background-color: rgba(0, 176, 115, 0.5);
 }
 
 /* Dashboard Tile Icons */
 .dashboard-tile i {
-    font-size: 30px;
+    font-size: 24px;
+    color: #808080;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.dashboard-tile:hover i {
+    color: white;
+    transform: scale(1.1);
 }
 
 /* Dashboard Tile Text */
 .dashboard-tile span {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* Welcome Marketing Widget */
@@ -259,7 +267,7 @@ main.sidebar-closed {
 
 /* Generic Header Styling */
 .generic-header {
-    margin: 40px 0 40px 0;
+    margin: 35px 0 40px 0;
 }
 
 .header-content {
@@ -267,39 +275,36 @@ main.sidebar-closed {
 }
 
 /* Breadcrumb Navigation */
+#breadcrumb-nav {
+    padding: 1.5rem 0 0.75rem;
+}
+
 .breadcrumb {
     display: flex;
     gap: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 15px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     color: #fff;
 }
 
 .breadcrumb a {
     text-decoration: none;
+    color: #ffffff;
+}
+
+#breadcrumb-nav:empty {
+    display: none; /* Hides when empty */
+}
+
+/* Arrow seperator inside breadcrumb */
+.select-indicator {
     color: #00b073;
+    font-weight: bold;
 }
 
 .breadcrumb a:hover {
-    text-decoration: underline;
-}
-
-#breadcrumb-nav {
-    position: absolute;  /* Ensure it doesn’t interfere with sidebar */
-    top: var(--header-height); /* Align below header */
-    left: 250px; /* Offset from the sidebar */
-    width: calc(100% - 250px); /* Prevent overlap with sidebar */
-    padding: 10px;
-    background: black;
-    z-index: 10; /* Ensure it stays on top */
-}
-
-#breadcrumb-nav a {
-    text-decoration: none;
     color: #00b073;
-}
-
-#breadcrumb-nav a:hover {
-    text-decoration: underline;
+    transition: color 0.2s ease;
 }

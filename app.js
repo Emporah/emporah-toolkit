@@ -27,14 +27,14 @@ function updateBreadcrumb(page) {
         "/investment-calculator": "Investment Calculator"
     };
 
-    let breadcrumbHTML = `<nav class="breadcrumb">
+    let breadcrumbHTML = `<div class="breadcrumb">
         <a href="#/welcome" onclick="navigateTo('/welcome')">Home</a>`;
 
     if (pageTitles[page]) {
-        breadcrumbHTML += ` <span>›</span> <span>${pageTitles[page]}</span>`;
+        breadcrumbHTML += ` <span class="select-indicator">›</span> <span>${pageTitles[page]}</span>`;
     }
 
-    breadcrumbHTML += `</nav>`;
+    breadcrumbHTML += `</div>`;
 
     breadcrumbNav.innerHTML = breadcrumbHTML;
 }
