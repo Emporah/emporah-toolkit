@@ -1,14 +1,78 @@
-/* Define Global Variables */
+/* -------------------------------------------------- UNIVERSAL -------------------------------------------------- */
+
+/* Global Variables */
 :root {
     --header-height: 52px;
 }
 
-/* General Styling */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #000;
 }
+
+main {
+    margin-left: 240px;
+    padding: 0 1.25rem;
+    padding-top: calc(var(--header-height));
+    background-color: black;
+    color: white;
+    min-height: calc(100vh - var(--header-height));
+    transition: margin-left 0.3s ease;
+    overflow: hidden;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 8px 0;
+    max-height: 70px;
+    overflow: hidden;
+}
+
+.description {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+}
+
+.generic-header {
+    margin: 35px 0 40px 0;
+}
+
+.header-content {
+    width: 60%;
+}
+
+button {
+    width:fit-content;
+    align-self: flex-start;
+    background-color: #00b073;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    border: none;
+    box-shadow: none;
+}
+
+button:hover {
+    background-color: #009060;
+}
+
+form {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 2px;
+    max-width: 600px;
+}
+
+/* -------------------------------------------------- FIXED HEADER -------------------------------------------------- */
 
 /* Header Logo */
 #logo-link {
@@ -22,7 +86,6 @@ body {
     width: 100px;
 }
 
-/* Fixed Header */
 header {
     position: fixed;
     display: flex;
@@ -46,6 +109,7 @@ header h1 {
 /* Hamburger Button */
 #left-menu-burger-button {
     display: flex;
+    align-self: auto;
     flex-direction: column;
     justify-content: space-between;
     width: 15px;
@@ -72,6 +136,8 @@ header h1 {
 #left-menu-burger-button.active .hamburger-icon {
     background-color: #ffffff;
 }
+
+/* -------------------------------------------------- NAVIGATION -------------------------------------------------- */
 
 /* Side Navigation (visible by default) */
 nav {
@@ -147,132 +213,12 @@ nav ul li:hover > a {
     background-color: rgba(0, 176, 115, 0.5);
 }
 
-/* Main Content Area */
-main {
-    margin-left: 240px;
-    padding: 0 1.25rem;
-    padding-top: calc(var(--header-height));
-    background-color: black;
-    color: white;
-    min-height: calc(100vh - var(--header-height));
-    transition: margin-left 0.3s ease;
-    overflow: hidden;
-}
-
 /* When the sidebar is closed */
 main.sidebar-closed {
     margin-left: 0; 
 }
 
-/* Dashboard Grid */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
-    text-align: center;
-}
-
-/* Individual Dashboard Tile */
-.dashboard-tile {
-    background: #1a1a1a;
-    color: #ffffff;
-    padding: 30px 20px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.dashboard-tile:hover {
-    background-color: rgba(0, 176, 115, 0.5);
-}
-
-/* Dashboard Tile Icons */
-.dashboard-tile i {
-    font-size: 24px;
-    color: #808080;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.dashboard-tile:hover i {
-    color: white;
-    transform: scale(1.1);
-}
-
-/* Dashboard Tile Text */
-.dashboard-tile span {
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Welcome Marketing Widget */
-.marketing-widget {
-    background: linear-gradient(135deg, rgba(0, 176, 115, 0.15), rgba(0, 0, 0, 0.8));
-    padding: 24px;
-    margin-bottom: 0;
-    margin-top: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    align-content: flex-start;
-    border-radius: 2px;
-    overflow: hidden;
-}
-
-.marketing-widget .description {
-    max-width: 360px;
-}
-
-.title {
-    font-size: 28px;
-    font-weight: 600;
-    margin: 8px 0;
-    max-height: 70px;
-    overflow: hidden;
-}
-
-.description {
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 20px;
-}
-
-/* Dashboard Button */
-.dashboard-btn {
-    width:fit-content;
-    align-self: flex-start;
-    background-color: #00b073;
-    text-transform: uppercase;
-    padding: 16px 32px;
-    border-radius: 3px;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin-top: 16px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    border: none;
-    box-shadow: none;
-}
-
-.dashboard-btn:hover {
-    background-color: #009060;
-}
-
-/* Generic Header Styling */
-.generic-header {
-    margin: 35px 0 40px 0;
-}
-
-.header-content {
-    width: 60%;
-}
+/* -------------------------------------------------- BREADCRUMB -------------------------------------------------- */
 
 /* Breadcrumb Navigation */
 #breadcrumb-nav {
@@ -308,6 +254,8 @@ main.sidebar-closed {
     color: #00b073;
     transition: color 0.2s ease;
 }
+
+/* -------------------------------------------------- FOOTER -------------------------------------------------- */
 
 /* Footer Styling */
 #site-footer {
@@ -359,4 +307,153 @@ main.sidebar-closed {
     margin-right: 1.2rem;
     text-decoration: none;
     display: inline-block;
+}
+
+/* -------------------------------------------------- WELCOME PAGE -------------------------------------------------- */
+
+/* Welcome Marketing Widget */
+.marketing-widget {
+    background: linear-gradient(135deg, rgba(0, 176, 115, 0.15), rgba(0, 0, 0, 0.8));
+    padding: 24px;
+    margin-bottom: 0;
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.marketing-widget .description {
+    max-width: 360px;
+    margin-bottom: 16px;
+}
+
+/* -------------------------------------------------- DASHBOARD -------------------------------------------------- */
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    text-align: center;
+}
+
+/* Individual Dashboard Tile */
+.dashboard-tile {
+    background: #1a1a1a;
+    color: #ffffff;
+    padding: 30px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.dashboard-tile:hover {
+    background-color: rgba(0, 176, 115, 0.5);
+}
+
+/* Dashboard Tile Icons */
+.dashboard-tile i {
+    font-size: 24px;
+    color: #808080;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.dashboard-tile:hover i {
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Dashboard Tile Text */
+.dashboard-tile span {
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* -------------------------------------------------- PAY CALCULATOR -------------------------------------------------- */
+  
+/* Style the labels */
+#calculator-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #ffffff;
+    font-size: 14px;
+}
+  
+/* Style the input fields and dropdowns */
+#calculator-form input,
+#calculator-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #333;
+    border-radius: 3px;
+    background-color: #000;
+    color: #fff;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#calculator-form select {
+    background-color: #000;
+    color: #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><polyline points="2,3 5,6 8,3" fill="none" stroke="%2300b073" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px 12px;
+    padding-right: 30px;
+  }  
+  
+/* Focus styles for inputs */
+#calculator-form input:focus,
+#calculator-form select:focus {
+    outline: none;
+    border-color: #00b073;
+}
+
+.income-group {
+    display: flex;
+    gap: 10px;
+}
+  
+/* Result card styling */
+#result {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 2px;
+    max-width: 600px;
+}
+  
+/* Heading for the results */
+#result-heading {
+    color: #00b073;
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+  
+/* Paragraphs inside result */
+#result p {
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 8px 0;
+}
+  
+/* Result view switch buttons */
+#result-controls button {
+    padding: 8px 12px;
+    margin-right: 5px;
 }
