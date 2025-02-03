@@ -424,8 +424,19 @@ main.sidebar-closed {
 }
 
 .income-group {
+    align-items: flex-start;
     display: flex;
-    gap: 10px;
+    gap: 6px;
+    width: auto;
+}
+
+.income-input-wrapper {
+    width: 165%;
+    margin-bottom: 15px;
+}
+
+.income-input-wrapper #income {
+    margin-bottom: 0;
 }
   
 /* Result card styling */
@@ -456,4 +467,16 @@ main.sidebar-closed {
 #result-controls button {
     padding: 8px 12px;
     margin-right: 5px;
+}
+
+.error-message {
+    color: #db3625;
+    font-size: 12px;
+    align-items: center;
+    gap: 4px;
+    margin-top: 5px;
+}
+
+#calculator-form input.error {
+    border: 1px solid #db3625;
 }

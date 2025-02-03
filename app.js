@@ -128,7 +128,12 @@ function loadContent(page) {
         <form id="calculator-form">
         <label for="income">Gross Income (£):</label>
         <div class="income-group">
-            <input type="number" id="income" placeholder="Enter your gross income" required>
+            <div class="income-input-wrapper">
+                <input type="number" id="income" placeholder="Enter your gross income" required>
+                <div class="error-message" id="income-error" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i> Required
+                </div>
+            </div>
             <select id="income-frequency">
                 <option value="yearly">Per Year</option>
                 <option value="monthly">Per Month</option>
@@ -245,14 +250,66 @@ function loadContent(page) {
     updateBreadcrumb(page);
 }
 
+// Function to validate the form
+function validateForm() {
+    const incomeInput = document.getElementById('income');
+    const incomeValue = incomeInput.value;
+
+    // Clear previous error styles
+    incomeInput.classList.remove('error');
+
+    if (!incomeValue || isNaN(incomeValue)) {
+        // Show error message
+        alert('Please enter a valid gross income.');
+
+        // Add error class to the input field
+        incomeInput.classList.add('error');
+
+        return false; // Prevent form submission
+    }
+
+    return true; // Allow form submission
+}
+
 // Attach event listeners when the pay calculator content loads
 function attachCalculatorFunctionality() {
     const calculateButton = document.getElementById('calculate-btn');
     if (!calculateButton) return;
     
-    calculateButton.addEventListener('click', () => {
+        // Attach input error message event listeners after the form is loaded
+        const incomeInput = document.getElementById("income");
+        const incomeError = document.getElementById("income-error");
+
+        incomeInput.addEventListener("blur", () => {
+        if (!incomeInput.value) {
+            incomeInput.classList.add("error");   // Add red border styling
+            incomeError.style.display = "flex"; // Show error message if empty
+        } else {
+            incomeInput.classList.remove("error");  // Remove red border styling
+            incomeError.style.display = "none";
+        }
+        });
+
+        incomeInput.addEventListener("input", () => {
+        if (incomeInput.value) {
+            incomeError.style.display = "none"; // Hide error message as soon as user types
+        }
+        });
+
+        calculateButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Validate income
+            const incomeInput = document.getElementById('income');
+            let income = parseFloat(incomeInput.value) || 0;
+            if (income <= 0) {
+                incomeInput.classList.add('error');  // Add red border styling
+                alert('Please enter a valid income amount.');
+                return; // Stop processing if invalid
+            }
+            incomeInput.classList.remove('error'); // Remove error if valid
+
         // Parse input values
-        let income = parseFloat(document.getElementById('income').value) || 0;
         const frequency = document.getElementById('income-frequency').value;
         let taxYear = document.getElementById('tax-year').value;
         let taxCode = document.getElementById('tax-code').value || "1257L";
