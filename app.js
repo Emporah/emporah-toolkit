@@ -121,25 +121,39 @@ function loadContent(page) {
         <div class="generic-header">
             <div class="header-content">
                 <h1 class="title">Pay Calculator</h1>
-                <p class="description">Enhanced Pay Calculator: Adjust your parameters to calculate your net income accurately.</p>
+                <p class="description">Adjust your details to calculate your take-home pay accurately.</p>
+            </div>
+        </div>
+
+        <div class="form-header">
+            <span>Your Details</span>
+            <div class="toggle-container">
+                <span id="toggle-label">Basic Mode</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="mode-toggle">
+                    <span class="toggle-slider"></span>
+                </label>
             </div>
         </div>
 
         <form id="calculator-form">
-        <label for="income">Gross Income (£):</label>
-        <div class="income-group">
-            <div class="income-input-wrapper">
-                <input type="number" id="income" placeholder="Enter your gross income" required>
-                <div class="error-message" id="income-error" style="display: none;">
-                    <i class="fas fa-exclamation-circle"></i> Required
+            <label for="income">Gross Income:</label>
+            <div class="income-group">
+                <div class="income-input-wrapper">
+                    <div class="income-input">
+                        <span class="input-prefix">£</span>
+                        <input type="number" id="income" placeholder="Enter your gross income" required>
+                    </div>
+                    <div class="error-message" id="income-error" style="display: none;">
+                        <i class="fas fa-exclamation-circle"></i> Required
+                    </div>
                 </div>
+                <select id="income-frequency">
+                    <option value="yearly">Per Year</option>
+                    <option value="monthly">Per Month</option>
+                    <option value="weekly">Per Week</option>
+                </select>
             </div>
-            <select id="income-frequency">
-                <option value="yearly">Per Year</option>
-                <option value="monthly">Per Month</option>
-                <option value="weekly">Per Week</option>
-            </select>
-        </div>
 
             <label for="tax-year">Tax Year:</label>
             <select id="tax-year">
@@ -147,37 +161,42 @@ function loadContent(page) {
                 <!-- You can add more tax years as needed -->
             </select>
 
-            <label for="tax-code">Tax Code:</label>
-            <input type="text" id="tax-code" placeholder="e.g., 1257L" value="1257L">
-
             <label for="age">Age:</label>
             <input type="number" id="age" placeholder="Enter your age" required>
 
             <label for="pension">Pension Contribution (£):</label>
             <input type="number" id="pension" placeholder="Enter your annual pension contributions" value="0">
 
-            <label for="student-loan-plan">Student Loan Plan:</label>
-            <select id="student-loan-plan">
-                <option value="None">None</option>
-                <option value="Plan 1">Plan 1</option>
-                <option value="Plan 2" selected>Plan 2</option>
-                <option value="Postgraduate">Postgraduate</option>
-            </select>
+            <div id="advanced-container" class="advanced-fields">
+                <label for="tax-code">Tax Code:</label>
+                <input type="text" id="tax-code" placeholder="e.g., 1257L" value="1257L">
 
-            <label for="other-deductions">Other Deductions (£):</label>
-            <input type="number" id="other-deductions" placeholder="Enter additional deductions (if any)" value="0">
+                <label for="student-loan-plan">Student Loan Plan:</label>
+                <select id="student-loan-plan">
+                    <option value="None">None</option>
+                    <option value="Plan 1">Plan 1</option>
+                    <option value="Plan 2" selected>Plan 2</option>
+                    <option value="Postgraduate">Postgraduate</option>
+                </select>
+
+                <label for="other-deductions">Other Deductions (£):</label>
+                <input type="number" id="other-deductions" placeholder="Enter additional deductions (if any)" value="0">
+            </div>
 
             <button type="button" id="calculate-btn">Calculate</button>
+            
         </form>
 
-        <h2 id="result-heading" style="display: none;">Results:</h2>
-        <div id="result" style="display: none;">
-        <div id="result-controls" style="margin-bottom: 10px;">
-            <button type="button" id="view-yearly">Yearly</button>
-            <button type="button" id="view-monthly">Monthly</button>
-            <button type="button" id="view-weekly">Weekly</button>
+        <div id="result-heading" style="display: none;">
+            <span>Results</span>
         </div>
-        <div id="result-content"></div>
+        <div id="result" style="display: none;">
+            <div id="result-controls" style="margin-bottom: 10px;">
+                <button type="button" id="view-yearly">Yearly</button>
+                <button type="button" id="view-monthly">Monthly</button>
+                <button type="button" id="view-weekly">Weekly</button>
+            </div>
+            <div id="result-content"></div>
         </div>
         `;
 
@@ -253,10 +272,12 @@ function loadContent(page) {
 // Function to validate the form
 function validateForm() {
     const incomeInput = document.getElementById('income');
+    const inputPrefix = document.querySelector('.input-prefix');
     const incomeValue = incomeInput.value;
 
     // Clear previous error styles
     incomeInput.classList.remove('error');
+    inputPrefix.classList.remove('error');
 
     if (!incomeValue || isNaN(incomeValue)) {
         // Show error message
@@ -264,6 +285,7 @@ function validateForm() {
 
         // Add error class to the input field
         incomeInput.classList.add('error');
+        inputPrefix.classList.add('error');
 
         return false; // Prevent form submission
     }
@@ -275,25 +297,45 @@ function validateForm() {
 function attachCalculatorFunctionality() {
     const calculateButton = document.getElementById('calculate-btn');
     if (!calculateButton) return;
+
+        // Toggle advanced fields visibility
+        document.getElementById('mode-toggle').addEventListener('change', function() {
+            var advContainer = document.getElementById('advanced-container');
+            var toggleLabel = document.getElementById('toggle-label');
+            if (this.checked) {
+              // Show advanced fields and update label
+              advContainer.style.display = 'block';
+              toggleLabel.textContent = 'Advanced Mode';
+            } else {
+              // Hide advanced fields and update label
+              advContainer.style.display = 'none';
+              toggleLabel.textContent = 'Basic Mode';
+            }
+          });          
     
         // Attach input error message event listeners after the form is loaded
         const incomeInput = document.getElementById("income");
         const incomeError = document.getElementById("income-error");
+        const inputPrefix = incomeInput.previousElementSibling; // Select the previous sibling element with class 'input-prefix'
 
         incomeInput.addEventListener("blur", () => {
-        if (!incomeInput.value) {
-            incomeInput.classList.add("error");   // Add red border styling
-            incomeError.style.display = "flex"; // Show error message if empty
-        } else {
-            incomeInput.classList.remove("error");  // Remove red border styling
-            incomeError.style.display = "none";
-        }
+            if (!incomeInput.value) {
+                incomeInput.classList.add("error");   // Add red border styling
+                inputPrefix.classList.add("error");   // Add red border styling to prefix
+                incomeError.style.display = "flex"; // Show error message if empty
+            } else {
+                incomeInput.classList.remove("error");  // Remove red border styling
+                inputPrefix.classList.remove("error");  // Remove red border styling from prefix
+                incomeError.style.display = "none";
+            }
         });
 
         incomeInput.addEventListener("input", () => {
-        if (incomeInput.value) {
-            incomeError.style.display = "none"; // Hide error message as soon as user types
-        }
+            if (incomeInput.value) {
+                incomeError.style.display = "none"; // Hide error message as soon as user types
+                incomeInput.classList.remove("error");  // Remove red border styling
+                inputPrefix.classList.remove("error");  // Remove red border styling from prefix
+            }
         });
 
         calculateButton.addEventListener('click', (e) => {
@@ -301,13 +343,16 @@ function attachCalculatorFunctionality() {
             
             // Validate income
             const incomeInput = document.getElementById('income');
+            const inputPrefix = incomeInput.previousElementSibling; // Select the previous sibling element with class 'input-prefix'
             let income = parseFloat(incomeInput.value) || 0;
             if (income <= 0) {
-                incomeInput.classList.add('error');  // Add red border styling
+                incomeInput.classList.add('error');  // Add red border styling for income input
+                inputPrefix.classList.add('error');  // Add error to the prefix as well
                 alert('Please enter a valid income amount.');
                 return; // Stop processing if invalid
             }
             incomeInput.classList.remove('error'); // Remove error if valid
+            inputPrefix.classList.remove('error'); // Remove error if valid
 
         // Parse input values
         const frequency = document.getElementById('income-frequency').value;
