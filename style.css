@@ -510,13 +510,11 @@ main.sidebar-closed {
     align-items: center;
     margin-top: 40px;
 }
-  
-/* Paragraphs inside result */
-#result p {
-    color: #fff;
-    font-size: 14px;
-    line-height: 1.5;
-    margin: 8px 0;
+
+#result-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
   
 /* Result view switch buttons */
@@ -525,12 +523,29 @@ main.sidebar-closed {
 }
 
 #result-controls button {
-    padding: 10px;
-    margin: 0;
+    border: none;
     border-radius: 0;
-    background-color: #808080;
-    border: 1px solid #ffffff;
-    width: 100%;
+    color: #a6a6a6;
+    display: inline-block;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 0 0 6px 0;
+    margin: 0.5rem 1rem 1rem 0;
+    text-transform: uppercase;
+    transition: ease 0.3s border-bottom-color, ease 0.3s color;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    background: none;
+}
+
+#result-controls button:hover {
+    color: #fff;
+    border-bottom: 2px solid rgba(0, 176, 115, 0.25);
+}
+
+#result-controls button.active {
+    color: #fff;
+    border-bottom: 2px solid #00b073;
 }
 
 .error-message {

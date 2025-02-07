@@ -1,9 +1,15 @@
+// =====================================================================
+// Initialisation
+// =====================================================================
 console.log('Emporah Toolkit website loaded');
 
 const burgerButton = document.getElementById('left-menu-burger-button');
 const sidebar = document.querySelector('nav');
 const mainContent = document.getElementById('main-content');
 
+// =====================================================================
+// Breadcrumb Navigation
+// =====================================================================
 function updateBreadcrumb(page) {
     const breadcrumbNav = document.getElementById("breadcrumb-nav");
 
@@ -14,7 +20,7 @@ function updateBreadcrumb(page) {
 
     // Hide breadcrumb on the welcome page
     if (page === '/welcome') {
-        breadcrumbNav.innerHTML = ''; // Clear it
+        breadcrumbNav.innerHTML = '';
         return;
     }
 
@@ -39,7 +45,9 @@ function updateBreadcrumb(page) {
     breadcrumbNav.innerHTML = breadcrumbHTML;
 }
 
-// Toggle Sidebar Functionality
+// =====================================================================
+// Sidebar Navigation
+// =====================================================================
 burgerButton.addEventListener('click', () => {
     sidebar.classList.toggle('open');
     mainContent.classList.toggle('sidebar-closed');
@@ -49,21 +57,34 @@ burgerButton.addEventListener('click', () => {
     burgerButton.classList.toggle('active');
 });
 
-// Function to Handle Navigation and URL Updates
 function navigateTo(page) {
-    window.location.hash = page; // Only modify hash, no pushState
+    window.location.hash = page;
     loadContent(page);
 }
 
+// =====================================================================
+// Page Load and Navigation Handling
+// =====================================================================
 window.onload = () => {
-    let path = window.location.hash.replace("#", "") || "/welcome"; // Default is now /welcome
+    let path = window.location.hash.replace("#", "") || "/welcome";
     loadContent(path);
 };
 
-// Handle browser back/forward navigation
+// Browser back/forward navigation
 window.onhashchange = () => loadContent(window.location.hash.replace("#", ""));
 
-// Content Functionality
+// Handle Navigation Clicks
+document.addEventListener('click', (e) => {
+    const link = e.target.closest('nav a');
+    if (link) {
+        e.preventDefault();
+        navigateTo(link.getAttribute('href').replace("#", ""));
+    }
+});
+
+// =====================================================================
+// CORE CONTENT LOADING
+// =====================================================================
 function loadContent(page) {
     let mainContent = document.getElementById("main-content");
     if (!mainContent) {
@@ -78,7 +99,7 @@ function loadContent(page) {
 
     let pageContent = '';
 
-    if (page === '/welcome') { // Default landing page
+    if (page === '/welcome') { // Homepage
         pageContent = `
             <div class="marketing-widget">
                 <span class="title"><b>Welcome to Emporah</b></span>
@@ -87,7 +108,7 @@ function loadContent(page) {
             </div>
         `;
     }
-    else if (page === '/dashboard') { // Dashboard
+    else if (page === '/dashboard') { // User Dashboard
         pageContent = `
             <div class="generic-header">
                 <div class="header-content">
@@ -191,7 +212,7 @@ function loadContent(page) {
             <span>Results</span>
         </div>
         <div id="result" style="display: none;">
-            <div id="result-controls" style="margin-bottom: 10px;">
+            <div id="result-controls">
                 <button type="button" id="view-yearly">Yearly</button>
                 <button type="button" id="view-monthly">Monthly</button>
                 <button type="button" id="view-weekly">Weekly</button>
@@ -202,7 +223,7 @@ function loadContent(page) {
 
         setTimeout(() => attachCalculatorFunctionality(), 0);
     }
-    else if (page === '/budget-planner') {
+    else if (page === '/budget-planner') { // Budget Planner
         pageContent = `
             <div class="generic-header">
                 <div class="header-content">
@@ -212,7 +233,7 @@ function loadContent(page) {
             </div>
         `;
     }
-    else if (page === '/savings-tracker') {
+    else if (page === '/savings-tracker') { // Savings Tracker
         pageContent = `
             <div class="generic-header">
                 <div class="header-content">
@@ -222,7 +243,7 @@ function loadContent(page) {
             </div>
         `;
     }
-    else if (page === '/investment-calculator') {
+    else if (page === '/investment-calculator') { // Investment Calculator
         pageContent = `
             <div class="generic-header">
                 <div class="header-content">
@@ -232,7 +253,7 @@ function loadContent(page) {
             </div>
         `;
     }
-    else {
+    else { // Page Not Found
         pageContent = `
             <div class="generic-header">
                 <div class="header-content">
@@ -244,7 +265,7 @@ function loadContent(page) {
     }
 
     // Update only the content inside main-content, preserving breadcrumb-nav
-    document.getElementById("breadcrumb-nav").innerHTML = ''; // Clear breadcrumb for welcome page
+    document.getElementById("breadcrumb-nav").innerHTML = '';
     mainContent.innerHTML = `<div id="breadcrumb-nav"></div>` + pageContent;
 
     //Footer
@@ -269,28 +290,29 @@ function loadContent(page) {
     updateBreadcrumb(page);
 }
 
-// Function to validate the form
+// =====================================================================
+// Pay Calculator Functionality
+// =====================================================================
+// Validate the form
 function validateForm() {
     const incomeInput = document.getElementById('income');
     const inputPrefix = document.querySelector('.input-prefix');
     const incomeValue = incomeInput.value;
 
-    // Clear previous error styles
+    // Error message handling
     incomeInput.classList.remove('error');
     inputPrefix.classList.remove('error');
 
     if (!incomeValue || isNaN(incomeValue)) {
-        // Show error message
         alert('Please enter a valid gross income.');
 
-        // Add error class to the input field
         incomeInput.classList.add('error');
         inputPrefix.classList.add('error');
 
-        return false; // Prevent form submission
+        return false;
     }
 
-    return true; // Allow form submission
+    return true;
 }
 
 // Attach event listeners when the pay calculator content loads
@@ -316,25 +338,25 @@ function attachCalculatorFunctionality() {
         // Attach input error message event listeners after the form is loaded
         const incomeInput = document.getElementById("income");
         const incomeError = document.getElementById("income-error");
-        const inputPrefix = incomeInput.previousElementSibling; // Select the previous sibling element with class 'input-prefix'
+        const inputPrefix = incomeInput.previousElementSibling;
 
         incomeInput.addEventListener("blur", () => {
             if (!incomeInput.value) {
-                incomeInput.classList.add("error");   // Add red border styling
-                inputPrefix.classList.add("error");   // Add red border styling to prefix
-                incomeError.style.display = "flex"; // Show error message if empty
+                incomeInput.classList.add("error");
+                inputPrefix.classList.add("error");
+                incomeError.style.display = "flex";
             } else {
-                incomeInput.classList.remove("error");  // Remove red border styling
-                inputPrefix.classList.remove("error");  // Remove red border styling from prefix
+                incomeInput.classList.remove("error");
+                inputPrefix.classList.remove("error");
                 incomeError.style.display = "none";
             }
         });
 
         incomeInput.addEventListener("input", () => {
             if (incomeInput.value) {
-                incomeError.style.display = "none"; // Hide error message as soon as user types
-                incomeInput.classList.remove("error");  // Remove red border styling
-                inputPrefix.classList.remove("error");  // Remove red border styling from prefix
+                incomeError.style.display = "none";
+                incomeInput.classList.remove("error");
+                inputPrefix.classList.remove("error");
             }
         });
 
@@ -343,16 +365,16 @@ function attachCalculatorFunctionality() {
             
             // Validate income
             const incomeInput = document.getElementById('income');
-            const inputPrefix = incomeInput.previousElementSibling; // Select the previous sibling element with class 'input-prefix'
+            const inputPrefix = incomeInput.previousElementSibling;
             let income = parseFloat(incomeInput.value) || 0;
             if (income <= 0) {
-                incomeInput.classList.add('error');  // Add red border styling for income input
-                inputPrefix.classList.add('error');  // Add error to the prefix as well
+                incomeInput.classList.add('error');
+                inputPrefix.classList.add('error');
                 alert('Please enter a valid income amount.');
-                return; // Stop processing if invalid
+                return;
             }
-            incomeInput.classList.remove('error'); // Remove error if valid
-            inputPrefix.classList.remove('error'); // Remove error if valid
+            incomeInput.classList.remove('error');
+            inputPrefix.classList.remove('error');
 
         // Parse input values
         const frequency = document.getElementById('income-frequency').value;
@@ -434,19 +456,23 @@ function attachCalculatorFunctionality() {
         document.getElementById('result-heading').style.display = 'block';
         document.getElementById('result').style.display = 'block';
         document.getElementById('result-content').innerHTML = `
-            <p id="yearly-result">
-                <strong>Yearly:</strong> £${netIncome.toFixed(2)}<br>
-                (Income Tax: £${incomeTax.toFixed(2)}, NI: £${nationalInsurance.toFixed(2)}, Student Loan: £${studentLoan.toFixed(2)}, Pension: £${pension.toFixed(2)}, Other: £${otherDeductions.toFixed(2)})
-            </p>
-            <p id="monthly-result" style="display:none;">
-                <strong>Monthly:</strong> £${monthlyNet.toFixed(2)}
-            </p>
-            <p id="weekly-result" style="display:none;">
-                <strong>Weekly:</strong> £${weeklyNet.toFixed(2)}
-            </p>
+            <ul id="result-list">
+                <li><strong>Gross Income:</strong> <span id="result-gross-income">£${yearlyIncome.toFixed(2)}</span></li>
+                <li>Income Tax: <span id="result-income-tax">£${incomeTax.toFixed(2)}</span></li>
+                <li>National Insurance: <span id="result-ni">£${nationalInsurance.toFixed(2)}</span></li>
+                <li>Student Loan: <span id="result-student-loan">£${studentLoan.toFixed(2)}</span></li>
+                <li>Pension: <span id="result-pension">£${pension.toFixed(2)}</span></li>
+                <li>Other Deductions: <span id="result-other-deductions">£${otherDeductions.toFixed(2)}</span></li>
+                <li class="net-income">
+                    <strong>Take-Home Pay:</strong> <span id="result-net-income">£${netIncome.toFixed(2)}</span>
+                </li>                               
+            </ul>
         `;
 
-        attachResultViewButtons(netIncome, monthlyNet, weeklyNet);
+        attachResultViewButtons(
+            yearlyIncome, 
+            incomeTax, nationalInsurance, studentLoan, pension, otherDeductions, netIncome
+        );        
     });
 }
 
@@ -490,22 +516,59 @@ function calculateStudentLoan(grossIncome, plan, studentLoanRules) {
     return grossIncome > rule.threshold ? (grossIncome - rule.threshold) * rule.rate : 0;
 }
 
-// Attach event listeners to the result view buttons to switch between yearly, monthly, and weekly displays
-function attachResultViewButtons(yearly, monthly, weekly) {
-    document.getElementById('view-yearly').addEventListener('click', () => updateResultView(yearly, 'Yearly'));
-    document.getElementById('view-monthly').addEventListener('click', () => updateResultView(monthly, 'Monthly'));
-    document.getElementById('view-weekly').addEventListener('click', () => updateResultView(weekly, 'Weekly'));
+// Results View Switch Buttons
+function attachResultViewButtons(yearlyIncome, 
+    incomeTax, nationalInsurance, studentLoan, pension, otherDeductions, netIncome) {
+
+    const buttons = {
+        yearly: document.getElementById('view-yearly'),
+        monthly: document.getElementById('view-monthly'),
+        weekly: document.getElementById('view-weekly')
+    };
+
+    function setActiveButton(activeKey) {
+        Object.keys(buttons).forEach(key => {
+            if (key === activeKey) {
+                buttons[key].classList.add('active');
+            } else {
+                buttons[key].classList.remove('active');
+            }
+        });
+
+        // Convert values dynamically based on selected frequency
+        const factor = activeKey === "yearly" ? 1 : activeKey === "monthly" ? 1 / 12 : 1 / 52;
+
+        document.getElementById('result-gross-income').textContent = `£${(yearlyIncome * factor).toFixed(2)}`;
+        document.getElementById('result-income-tax').textContent = `£${(incomeTax * factor).toFixed(2)}`;
+        document.getElementById('result-ni').textContent = `£${(nationalInsurance * factor).toFixed(2)}`;
+        document.getElementById('result-student-loan').textContent = `£${(studentLoan * factor).toFixed(2)}`;
+        document.getElementById('result-pension').textContent = `£${(pension * factor).toFixed(2)}`;
+        document.getElementById('result-other-deductions').textContent = `£${(otherDeductions * factor).toFixed(2)}`;
+        document.getElementById('result-net-income').textContent = `£${(netIncome * factor).toFixed(2)}`;
+    }
+
+    // Determine default view based on user's selected frequency
+    const incomeFrequency = document.getElementById('income-frequency').value;
+    let defaultView = "yearly"; 
+
+    if (incomeFrequency === "monthly") {
+        defaultView = "monthly";
+    } else if (incomeFrequency === "weekly") {
+        defaultView = "weekly";
+    }
+
+    setActiveButton(defaultView); // Apply the default view based on selection
+
+    // Event listeners for switching views
+    buttons.yearly.addEventListener('click', () => setActiveButton('yearly'));
+    buttons.monthly.addEventListener('click', () => setActiveButton('monthly'));
+    buttons.weekly.addEventListener('click', () => setActiveButton('weekly'));
 }
 
 function updateResultView(amount, label) {
     document.getElementById('result-content').innerHTML = `<p><strong>${label}:</strong> £${amount.toFixed(2)}</p>`;
 }
 
-// Handle Navigation Clicks
-document.addEventListener('click', (e) => {
-    const link = e.target.closest('nav a');
-    if (link) {
-        e.preventDefault();
-        navigateTo(link.getAttribute('href').replace("#", ""));
-    }
-});
+// =====================================================================
+// NEXT TOOL FUNCTIONALITY BELOW HERE...
+// =====================================================================
