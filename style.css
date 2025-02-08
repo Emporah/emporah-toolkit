@@ -397,12 +397,13 @@ main.sidebar-closed {
 /* -------------------------------------------------- PAY CALCULATOR -------------------------------------------------- */
   
 /* Style the labels */
-#calculator-form label {
+#calculator-form .form-label {
     display: block;
     font-weight: 600;
     margin-bottom: 5px;
     color: #ffffff;
-    font-size: 14px;
+    font-size: 12px;
+    pointer-events: none;
 }
   
 /* Style the input fields and dropdowns */
@@ -415,7 +416,7 @@ main.sidebar-closed {
     border-radius: 3px;
     background-color: #000;
     color: #fff;
-    font-size: 14px;
+    font-size: 12px;
     box-sizing: border-box;
 }
 
@@ -439,23 +440,27 @@ main.sidebar-closed {
     border-color: #00b073;
 }
 
-.income-input:focus-within {
-    outline: none;
+/* Ensure both input and prefix highlight together when either is hovered */
+#calculator-form .income-input:hover .input-field,
+#calculator-form .income-input:hover .input-prefix,
+#calculator-form .input-prefix:hover,
+#calculator-form .input-field:hover {
     border-color: #00b073;
 }
 
-.income-input:focus-within .input-prefix {
-    border-color: #00b073;
-}
-
-.income-group {
+.income-group, .pension-group {
     align-items: flex-start;
     display: flex;
     gap: 10px;
     width: auto;
 }
 
-.income-input-wrapper {
+#calculator-form input:hover,
+#calculator-form select:hover {
+    border-color: #00b073;
+}
+
+.income-input-wrapper, .pension-input-wrapper {
     width: 165%;
     margin-bottom: 15px;
 }
@@ -466,7 +471,7 @@ main.sidebar-closed {
     border-top-left-radius: 0;
 }
 
-.income-input {
+.income-input, .pension-input {
     display: flex;
 }
 
@@ -516,6 +521,67 @@ main.sidebar-closed {
     padding: 0;
     margin: 0;
 }
+
+#result-content {
+    background: black;
+    border: solid 1px #fff;
+    border-radius: 3px;
+}
+
+/* Payslip Table Styling */
+.payslip-table {
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    overflow: hidden;
+    table-layout: fixed;
+}
+
+/* Table Headings */
+.payslip-table th {
+    border-bottom: 1px solid #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px;
+    text-align: left;
+}
+
+.payslip-table th,
+.payslip-table td {
+    width: 50%; /* Ensures both columns take equal space */
+    text-align: left; /* Keeps text aligned properly */
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+/* Table Rows */
+.payslip-table td {
+    padding: 10px 15px;
+    
+}
+
+.payslip-table tr {
+    font-size: 12px;
+    border-bottom: 1px solid #3b3b3b;
+}
+
+.payslip-table .net-income {
+    border-bottom: none;
+}
+
+/* Divider Row */
+.payslip-table .divider td {
+    border: none;
+    height: 8px;
+}
+
+/* Net Income Text */
+.payslip-table .net-income td {
+    color: #00b073;
+    font-size: 14px;
+    font-weight: 700;
+    border-top: 1px solid #fff;
+    border-bottom: none;
+}
   
 /* Result view switch buttons */
 #result-controls {
@@ -530,8 +596,9 @@ main.sidebar-closed {
     font-weight: 700;
     letter-spacing: 1px;
     padding: 0 0 6px 0;
-    margin: 0.5rem 1rem 1rem 0;
+    margin: 0.5rem 1rem 1.5rem 0;
     text-transform: uppercase;
+    font-size: 12px;
     transition: ease 0.3s border-bottom-color, ease 0.3s color;
     border-bottom: 2px solid transparent;
     cursor: pointer;
@@ -569,25 +636,25 @@ main.sidebar-closed {
     display: flex;
     align-items: center;
     gap: 10px;
-  }
+}
   
-  /* Toggle switch container */
-  .toggle-switch {
+/* Toggle switch container */
+.toggle-switch {
     position: relative;
     display: inline-block;
     width: 50px;
     height: 24px;
-  }
+}
   
-  /* Hide the default checkbox */
-  .toggle-switch input {
+/* Hide the default checkbox */
+.toggle-switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
+}
   
-  /* The slider */
-  .toggle-slider {
+/* The slider */
+.toggle-slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -597,10 +664,10 @@ main.sidebar-closed {
     background-color: #202020;
     transition: 0.4s;
     border-radius: 24px;
-  }
+}
   
-  /* The knob inside the slider */
-  .toggle-slider:before {
+/* The knob inside the slider */
+.toggle-slider:before {
     position: absolute;
     content: "";
     height: 18px;
@@ -610,19 +677,58 @@ main.sidebar-closed {
     background-color: white;
     transition: 0.4s;
     border-radius: 50%;
-  }
+}
   
-  /* When the checkbox is checked, change the background color */
-  .toggle-switch input:checked + .toggle-slider {
+/* When the checkbox is checked, change the background color */
+.toggle-switch input:checked + .toggle-slider {
     background-color: #22cf93;
-  }
+}
   
-  /* Move the knob when checked */
-  .toggle-switch input:checked + .toggle-slider:before {
+/* Move the knob when checked */
+.toggle-switch input:checked + .toggle-slider:before {
     transform: translateX(26px);
-  }  
+}  
   
-  /* Hide advanced fields by default */
-  .advanced-fields {
+/* Hide advanced fields by default */
+.advanced-fields {
     display: none;
-  }
+}
+
+.pension-toggle-group {
+    display: inline-flex;
+    border: 1px solid #333;
+    border-radius: 3px;
+    margin-right: 10px;
+    width: auto;
+}
+
+.pension-toggle-group:hover {
+    border-color: #00b073;
+}
+
+.pension-toggle-group input {
+    display: none; /* Hide the radio buttons */
+}
+
+.pension-input-wrapper #pension {
+    margin-bottom: 0;
+}
+
+.pension-input .pension-toggle-group label {
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    min-width: 35px;
+    flex-grow: 1;
+    background: #000;
+    color: #fff;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+.pension-toggle-group input:checked + label {
+    background: #00b073;
+    border-color: #00b073;
+}

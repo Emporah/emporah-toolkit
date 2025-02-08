@@ -10,39 +10,23 @@ const mainContent = document.getElementById('main-content');
 // =====================================================================
 // Breadcrumb Navigation
 // =====================================================================
+const pageTitles = {
+    "/dashboard": "Dashboard",
+    "/pay-calculator": "Pay Calculator",
+    "/budget-planner": "Budget Planner",
+    "/savings-tracker": "Savings Tracker",
+    "/investment-calculator": "Investment Calculator"
+};
+
 function updateBreadcrumb(page) {
     const breadcrumbNav = document.getElementById("breadcrumb-nav");
+    if (!breadcrumbNav) return console.error("Error: breadcrumb-nav element not found.");
 
-    if (!breadcrumbNav) {
-        console.error("Error: breadcrumb-nav element not found.");
-        return;
-    }
-
-    // Hide breadcrumb on the welcome page
-    if (page === '/welcome') {
-        breadcrumbNav.innerHTML = '';
-        return;
-    }
-
-    // Define page titles
-    const pageTitles = {
-        "/dashboard": "Dashboard",
-        "/pay-calculator": "Pay Calculator",
-        "/budget-planner": "Budget Planner",
-        "/savings-tracker": "Savings Tracker",
-        "/investment-calculator": "Investment Calculator"
-    };
-
-    let breadcrumbHTML = `<div class="breadcrumb">
-        <a href="#/welcome" onclick="navigateTo('/welcome')">Home</a>`;
-
-    if (pageTitles[page]) {
-        breadcrumbHTML += ` <span class="select-indicator">›</span> <span>${pageTitles[page]}</span>`;
-    }
-
-    breadcrumbHTML += `</div>`;
-
-    breadcrumbNav.innerHTML = breadcrumbHTML;
+    breadcrumbNav.innerHTML = page === '/welcome' ? '' :
+        `<div class="breadcrumb">
+            <a href="#/welcome" onclick="navigateTo('/welcome')">Home</a>
+            ${pageTitles[page] ? `<span class="select-indicator">›</span> <span>${pageTitles[page]}</span>` : ''}
+        </div>`;
 }
 
 // =====================================================================
@@ -51,10 +35,8 @@ function updateBreadcrumb(page) {
 burgerButton.addEventListener('click', () => {
     sidebar.classList.toggle('open');
     mainContent.classList.toggle('sidebar-closed');
-
-    const expanded = burgerButton.getAttribute('aria-expanded') === 'true';
-    burgerButton.setAttribute('aria-expanded', !expanded);
     burgerButton.classList.toggle('active');
+    burgerButton.setAttribute('aria-expanded', sidebar.classList.contains('open'));
 });
 
 function navigateTo(page) {
@@ -65,13 +47,12 @@ function navigateTo(page) {
 // =====================================================================
 // Page Load and Navigation Handling
 // =====================================================================
-window.onload = () => {
-    let path = window.location.hash.replace("#", "") || "/welcome";
-    loadContent(path);
-};
+function handleNavigation() {
+    loadContent(window.location.hash.replace("#", "") || "/welcome");
+}
 
-// Browser back/forward navigation
-window.onhashchange = () => loadContent(window.location.hash.replace("#", ""));
+window.onload = handleNavigation;
+window.onhashchange = handleNavigation;
 
 // Handle Navigation Clicks
 document.addEventListener('click', (e) => {
@@ -93,9 +74,11 @@ function loadContent(page) {
     }
 
     // Ensure breadcrumb-nav exists inside main-content
-    if (!document.getElementById("breadcrumb-nav")) {
-        mainContent.innerHTML = '<div id="breadcrumb-nav"></div>' + mainContent.innerHTML;
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+        if (!document.getElementById("breadcrumb-nav")) {
+            mainContent.insertAdjacentHTML('afterbegin', '<div id="breadcrumb-nav"></div>');
+        }
+    });    
 
     let pageContent = '';
 
@@ -158,12 +141,12 @@ function loadContent(page) {
         </div>
 
         <form id="calculator-form">
-            <label for="income">Gross Income:</label>
+            <label class ="form-label" for="income">Gross Income:</label>
             <div class="income-group">
                 <div class="income-input-wrapper">
                     <div class="income-input">
                         <span class="input-prefix">£</span>
-                        <input type="number" id="income" placeholder="Enter your gross income" required>
+                        <input type="number" id="income" class="input-field format-number" placeholder="Enter your gross income" required>
                     </div>
                     <div class="error-message" id="income-error" style="display: none;">
                         <i class="fas fa-exclamation-circle"></i> Required
@@ -176,23 +159,40 @@ function loadContent(page) {
                 </select>
             </div>
 
-            <label for="tax-year">Tax Year:</label>
+            <label class ="form-label" for="tax-year">Tax Year:</label>
             <select id="tax-year">
                 <option value="2024-2025">2024-2025</option>
                 <!-- You can add more tax years as needed -->
             </select>
 
-            <label for="age">Age:</label>
+            <label class ="form-label" for="age">Age:</label>
             <input type="number" id="age" placeholder="Enter your age" required>
 
-            <label for="pension">Pension Contribution (£):</label>
-            <input type="number" id="pension" placeholder="Enter your annual pension contributions" value="0">
+            <label class ="form-label" for="pension">Pension Contribution:</label>
+            <div class="pension-group">
+                <div class="pension-input-wrapper">
+                    <div class="pension-input">
+                        <div class="pension-toggle-group">
+                            <input type="radio" id="pension-type-fixed" name="pension-type" value="fixed" checked>
+                            <label for="pension-type-fixed" class="toggle-option">£</label>
+                            <input type="radio" id="pension-type-percentage" name="pension-type" value="percentage">
+                            <label for="pension-type-percentage" class="toggle-option">%</label>
+                        </div>
+                        <input type="number" id="pension" class="format-number" placeholder="Enter your pension contribution" required>
+                    </div>
+                </div>
+                <select id="pension-frequency">
+                    <option value="yearly">Per Year</option>
+                    <option value="monthly">Per Month</option>
+                    <option value="weekly">Per Week</option>
+                </select>
+            </div>
 
             <div id="advanced-container" class="advanced-fields">
-                <label for="tax-code">Tax Code:</label>
+                <label class ="form-label" for="tax-code">Tax Code:</label>
                 <input type="text" id="tax-code" placeholder="e.g., 1257L" value="1257L">
 
-                <label for="student-loan-plan">Student Loan Plan:</label>
+                <label class ="form-label" for="student-loan-plan">Student Loan Plan:</label>
                 <select id="student-loan-plan">
                     <option value="None">None</option>
                     <option value="Plan 1">Plan 1</option>
@@ -200,8 +200,8 @@ function loadContent(page) {
                     <option value="Postgraduate">Postgraduate</option>
                 </select>
 
-                <label for="other-deductions">Other Deductions (£):</label>
-                <input type="number" id="other-deductions" placeholder="Enter additional deductions (if any)" value="0">
+                <label class ="form-label" for="other-deductions">Other Deductions (£):</label>
+                <input type="number" id="other-deductions" class="format-input" placeholder="Enter additional deductions (if any)" value="0">
             </div>
 
             <button type="button" id="calculate-btn">Calculate</button>
@@ -221,7 +221,13 @@ function loadContent(page) {
         </div>
         `;
 
-        setTimeout(() => attachCalculatorFunctionality(), 0);
+        if (page === "/pay-calculator") {
+            setTimeout(() => {
+                attachCalculatorFunctionality();
+                setDefaultPensionValues(); // Ensure pension defaults are set on load
+            }, 0);
+        }        
+        
     }
     else if (page === '/budget-planner') { // Budget Planner
         pageContent = `
@@ -293,28 +299,6 @@ function loadContent(page) {
 // =====================================================================
 // Pay Calculator Functionality
 // =====================================================================
-// Validate the form
-function validateForm() {
-    const incomeInput = document.getElementById('income');
-    const inputPrefix = document.querySelector('.input-prefix');
-    const incomeValue = incomeInput.value;
-
-    // Error message handling
-    incomeInput.classList.remove('error');
-    inputPrefix.classList.remove('error');
-
-    if (!incomeValue || isNaN(incomeValue)) {
-        alert('Please enter a valid gross income.');
-
-        incomeInput.classList.add('error');
-        inputPrefix.classList.add('error');
-
-        return false;
-    }
-
-    return true;
-}
-
 // Attach event listeners when the pay calculator content loads
 function attachCalculatorFunctionality() {
     const calculateButton = document.getElementById('calculate-btn');
@@ -322,43 +306,23 @@ function attachCalculatorFunctionality() {
 
         // Toggle advanced fields visibility
         document.getElementById('mode-toggle').addEventListener('change', function() {
-            var advContainer = document.getElementById('advanced-container');
-            var toggleLabel = document.getElementById('toggle-label');
-            if (this.checked) {
-              // Show advanced fields and update label
-              advContainer.style.display = 'block';
-              toggleLabel.textContent = 'Advanced Mode';
-            } else {
-              // Hide advanced fields and update label
-              advContainer.style.display = 'none';
-              toggleLabel.textContent = 'Basic Mode';
-            }
-          });          
+            document.getElementById('advanced-container').style.display = this.checked ? 'block' : 'none';
+            document.getElementById('toggle-label').textContent = this.checked ? 'Advanced Mode' : 'Basic Mode';
+        });                 
     
         // Attach input error message event listeners after the form is loaded
         const incomeInput = document.getElementById("income");
         const incomeError = document.getElementById("income-error");
         const inputPrefix = incomeInput.previousElementSibling;
 
-        incomeInput.addEventListener("blur", () => {
-            if (!incomeInput.value) {
-                incomeInput.classList.add("error");
-                inputPrefix.classList.add("error");
-                incomeError.style.display = "flex";
-            } else {
-                incomeInput.classList.remove("error");
-                inputPrefix.classList.remove("error");
-                incomeError.style.display = "none";
-            }
-        });
-
-        incomeInput.addEventListener("input", () => {
-            if (incomeInput.value) {
-                incomeError.style.display = "none";
-                incomeInput.classList.remove("error");
-                inputPrefix.classList.remove("error");
-            }
-        });
+        function toggleErrorState(isError) {
+            incomeInput.classList.toggle("error", isError);
+            inputPrefix.classList.toggle("error", isError);
+            incomeError.style.display = isError ? "flex" : "none";
+        }
+        
+        incomeInput.addEventListener("blur", () => toggleErrorState(!incomeInput.value));
+        incomeInput.addEventListener("input", () => toggleErrorState(false));        
 
         calculateButton.addEventListener('click', (e) => {
             e.preventDefault();
@@ -366,25 +330,33 @@ function attachCalculatorFunctionality() {
             // Validate income
             const incomeInput = document.getElementById('income');
             const inputPrefix = incomeInput.previousElementSibling;
+            const incomeError = document.getElementById("income-error");
+
+            // Ensure we properly get the value from incomeInput
             let income = parseFloat(incomeInput.value) || 0;
+
             if (income <= 0) {
                 incomeInput.classList.add('error');
                 inputPrefix.classList.add('error');
+                incomeError.style.display = "flex";
                 alert('Please enter a valid income amount.');
                 return;
             }
+
+            // Reset error state if input is valid
             incomeInput.classList.remove('error');
             inputPrefix.classList.remove('error');
+            incomeError.style.display = "none";
 
-        // Parse input values
+        const grossIncome = parseFloat(document.getElementById('income').value) || 0;
         const frequency = document.getElementById('income-frequency').value;
         let taxYear = document.getElementById('tax-year').value;
         let taxCode = document.getElementById('tax-code').value || "1257L";
         let age = parseInt(document.getElementById('age').value) || 0;
-        let pension = parseFloat(document.getElementById('pension').value) || 0;
         let studentLoanPlan = document.getElementById('student-loan-plan').value;
         let otherDeductions = parseFloat(document.getElementById('other-deductions').value) || 0;
 
+        // Validate gross income input values
         if (income <= 0) {
             alert('Please enter a valid income amount.');
             return;
@@ -394,13 +366,47 @@ function attachCalculatorFunctionality() {
             return;
         }
         
-        // Convert income to yearly based on frequency
-        let yearlyIncome = income;
-        if (frequency === 'monthly') {
-            yearlyIncome = income * 12;
-        } else if (frequency === 'weekly') {
-            yearlyIncome = income * 52;
+        const multipliers = { monthly: 12, weekly: 52, yearly: 1 };
+        const yearlyIncome = (parseFloat(document.getElementById('income').value) || 0) * multipliers[frequency];        
+        const pensionInput = document.getElementById('pension');
+        const pensionFixed = document.getElementById('pension-type-fixed');
+        const pensionPercentage = document.getElementById('pension-type-percentage');
+
+        if (pensionFixed && pensionPercentage) {
+            pensionFixed.addEventListener('change', () => {
+                if (pensionInput) pensionInput.placeholder = "Enter fixed amount";
+            });
+
+            pensionPercentage.addEventListener('change', () => {
+                if (pensionInput) pensionInput.placeholder = "Enter percentage";
+            });
+        } else {
+            console.error("Pension radio buttons not found.");
         }
+
+        const pensionFrequency = document.getElementById('pension-frequency').value;
+        const isPercentage = document.getElementById('pension-type-percentage').checked;
+        let pension = parseFloat(pensionInput.value) || 0;
+
+        // Convert percentage to fixed amount if percentage is selected
+        const pensionMultipliers = { yearly: 1, monthly: 12, weekly: 52 };
+        const pensionBaseIncome = yearlyIncome / pensionMultipliers[pensionFrequency]; 
+        pension = isPercentage ? (pensionBaseIncome * pension) / 100 : pension;                
+
+        // Convert pension contributions to yearly based on the selected frequency
+        if (pensionFrequency === "monthly") {
+            pension *= 12;
+        } else if (pensionFrequency === "weekly") {
+            pension *= 52;
+        }
+
+        pensionFixed.addEventListener('change', () => {
+            pensionInput.placeholder = "Enter fixed amount";
+        });
+        
+        pensionPercentage.addEventListener('change', () => {
+            pensionInput.placeholder = "Enter percentage";
+        });
 
         // Tax rules configuration for tax year 2024-2025 (extend as needed)
         const taxRulesConfig = {
@@ -456,24 +462,64 @@ function attachCalculatorFunctionality() {
         document.getElementById('result-heading').style.display = 'block';
         document.getElementById('result').style.display = 'block';
         document.getElementById('result-content').innerHTML = `
-            <ul id="result-list">
-                <li><strong>Gross Income:</strong> <span id="result-gross-income">£${yearlyIncome.toFixed(2)}</span></li>
-                <li>Income Tax: <span id="result-income-tax">£${incomeTax.toFixed(2)}</span></li>
-                <li>National Insurance: <span id="result-ni">£${nationalInsurance.toFixed(2)}</span></li>
-                <li>Student Loan: <span id="result-student-loan">£${studentLoan.toFixed(2)}</span></li>
-                <li>Pension: <span id="result-pension">£${pension.toFixed(2)}</span></li>
-                <li>Other Deductions: <span id="result-other-deductions">£${otherDeductions.toFixed(2)}</span></li>
-                <li class="net-income">
-                    <strong>Take-Home Pay:</strong> <span id="result-net-income">£${netIncome.toFixed(2)}</span>
-                </li>                               
-            </ul>
+
+                <table class="payslip-table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gross Income</td>
+                            <td id="result-gross-income" class="format-number">£0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Income Tax</td>
+                            <td id="result-income-tax" class="format-number">£0.00</td>
+                        </tr>
+                        <tr>
+                            <td>National Insurance</td>
+                            <td id="result-ni" class="format-number">£0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Student Loan</td>
+                            <td id="result-student-loan" class="format-number">£0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Pension</td>
+                            <td id="result-pension" class="format-number">£0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Other Deductions</td>
+                            <td id="result-other-deductions" class="format-number">£0.00</td>
+                        </tr>
+                        <tr class="net-income">
+                            <td><strong>Net Income</strong></td>
+                            <td id="result-net-income" class="format-number">£0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+
         `;
 
         attachResultViewButtons(
             yearlyIncome, 
             incomeTax, nationalInsurance, studentLoan, pension, otherDeductions, netIncome
-        );        
+        );
+        
     });
+}
+
+function setDefaultPensionValues() {
+    const pensionInput = document.getElementById('pension');
+    const pensionFixed = document.getElementById('pension-type-fixed');
+    const pensionPercentage = document.getElementById('pension-type-percentage');
+
+    if (pensionInput) pensionInput.value = "0"; // Set default pension contribution to 0
+    if (pensionFixed) pensionFixed.checked = false; // Ensure £ is not selected
+    if (pensionPercentage) pensionPercentage.checked = true; // Ensure % is selected by default
 }
 
 // Extract personal allowance from the tax code by taking the digits and multiplying by 10
@@ -485,19 +531,17 @@ function getPersonalAllowance(taxCode, defaultAllowance) {
 // Calculate income tax using the band thresholds and rates
 function calculateIncomeTax(adjustedIncome, personalAllowance, rules) {
     let taxableIncome = Math.max(0, adjustedIncome - personalAllowance);
-    let tax = 0;
-    if (taxableIncome > rules.higherRateThreshold) {
-        tax += (taxableIncome - rules.higherRateThreshold) * rules.rates.additional;
-        taxableIncome = rules.higherRateThreshold;
-    }
-    if (taxableIncome > rules.basicRateThreshold) {
-        tax += (taxableIncome - rules.basicRateThreshold) * rules.rates.higher;
-        taxableIncome = rules.basicRateThreshold;
-    }
-    if (taxableIncome > 0) {
-        tax += taxableIncome * rules.rates.basic;
-    }
-    return tax;
+    return [
+        { threshold: rules.higherRateThreshold, rate: rules.rates.additional },
+        { threshold: rules.basicRateThreshold, rate: rules.rates.higher },
+        { threshold: 0, rate: rules.rates.basic }
+    ].reduce((tax, { threshold, rate }) => {
+        if (taxableIncome > threshold) {
+            tax += (taxableIncome - threshold) * rate;
+            taxableIncome = threshold;
+        }
+        return tax;
+    }, 0);
 }
 
 // Calculate National Insurance (NI); assume NI is not due if age is 65 or above
@@ -542,12 +586,18 @@ function attachResultViewButtons(yearlyIncome,
         document.getElementById('result-income-tax').textContent = `£${(incomeTax * factor).toFixed(2)}`;
         document.getElementById('result-ni').textContent = `£${(nationalInsurance * factor).toFixed(2)}`;
         document.getElementById('result-student-loan').textContent = `£${(studentLoan * factor).toFixed(2)}`;
-        document.getElementById('result-pension').textContent = `£${(pension * factor).toFixed(2)}`;
+
+        document.getElementById('result-pension').textContent = 
+        activeKey === "yearly" ? `£${pension.toFixed(2)}` :
+        activeKey === "monthly" ? `£${(pension / 12).toFixed(2)}` :
+        `£${(pension / 52).toFixed(2)}`;
+
         document.getElementById('result-other-deductions').textContent = `£${(otherDeductions * factor).toFixed(2)}`;
         document.getElementById('result-net-income').textContent = `£${(netIncome * factor).toFixed(2)}`;
+
     }
 
-    // Determine default view based on user's selected frequency
+    // Determine default view based on user's selected income frequency
     const incomeFrequency = document.getElementById('income-frequency').value;
     let defaultView = "yearly"; 
 
