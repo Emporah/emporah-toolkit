@@ -65,7 +65,7 @@ button {
     align-self: flex-start;
     background-color: #00b073;
     text-transform: uppercase;
-    padding: 16px 32px;
+    padding: 12px 18px;
     border-radius: 3px;
     color: #fff;
     font-size: 12px;
@@ -86,6 +86,81 @@ form {
     padding: 20px;
     border-radius: 0 0 5px 5px;
     max-width: 600px;
+}
+
+/* Tooltip Icon Styling */
+.tooltip-icon {
+    display: inline-block;
+    margin-left: 2px;
+    cursor: pointer;
+    position: relative;
+    font-size: 12px;
+}
+
+.tooltip-icon:hover, .tooltip-icon.active {
+    color: #00b073;
+}
+
+.tooltip-icon.active .tooltip-content {
+    display: block;
+}
+
+.tooltip-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    padding: 1rem;
+    z-index: 1000;
+    min-width: 250px;
+    max-width: 320px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    top: 50%;
+    left: calc(100% + 12px);
+    transform: translateY(-50%);
+}
+
+/* Tooltip Arrow */
+.tooltip-content::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent #fff transparent transparent;
+}
+
+.tooltip-title {
+    color: #00b073;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-size: 18px;
+}
+
+.tooltip-description {
+    font-size: 14px;
+    color: #000;
+}
+
+/* Close Button Inside Tooltip */
+.tooltip-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.tooltip-close:hover {
+    color: #000;
 }
 
 /* -------------------------------------------------- FIXED HEADER -------------------------------------------------- */
@@ -398,12 +473,11 @@ main.sidebar-closed {
   
 /* Style the labels */
 #calculator-form .form-label {
-    display: block;
     font-weight: 600;
-    margin-bottom: 5px;
     color: #ffffff;
     font-size: 12px;
-    pointer-events: none;
+    display: inline-block;
+    margin-bottom: 0.5rem;
 }
   
 /* Style the input fields and dropdowns */
@@ -411,13 +485,17 @@ main.sidebar-closed {
 #calculator-form select {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #333;
     border-radius: 3px;
     background-color: #000;
     color: #fff;
     font-size: 12px;
     box-sizing: border-box;
+    height: 38px;
+}
+
+.form-field-group {
+    margin-bottom: 1rem;
 }
 
 #calculator-form select {
@@ -451,8 +529,8 @@ main.sidebar-closed {
 .income-group, .pension-group {
     align-items: flex-start;
     display: flex;
-    gap: 10px;
-    width: auto;
+    gap: 1rem;
+    width: 100%;
 }
 
 #calculator-form input:hover,
@@ -460,9 +538,32 @@ main.sidebar-closed {
     border-color: #00b073;
 }
 
+.form-buttons {
+    display: flex;
+    gap: 1.2rem;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+#calculate-btn {
+    flex: 3;
+}
+
+#clear-btn {
+    background-color: #F15853;
+    flex: 1;
+}
+
+#clear-btn i {
+    margin-right: 8px;
+}
+
+#clear-btn:hover {
+    background-color: #d1433e;
+}
+
 .income-input-wrapper, .pension-input-wrapper {
     width: 165%;
-    margin-bottom: 15px;
 }
 
 .income-input-wrapper #income {
@@ -568,6 +669,14 @@ main.sidebar-closed {
     border-bottom: none;
 }
 
+.payslip-table #result-gross-income {
+    color: #00b073;
+}
+
+.payslip-table .result-value {
+    color: #F15853;
+}
+
 /* Divider Row */
 .payslip-table .divider td {
     border: none;
@@ -618,9 +727,10 @@ main.sidebar-closed {
 .error-message {
     color: #db3625;
     font-size: 12px;
+    font-weight: bold;
     align-items: center;
     gap: 4px;
-    margin-top: 5px;
+    margin-top: 0.5rem;
 }
 
 #calculator-form input.error, #calculator-form .input-prefix.error {

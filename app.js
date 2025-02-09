@@ -141,70 +141,139 @@ function loadContent(page) {
         </div>
 
         <form id="calculator-form">
-            <label class ="form-label" for="income">Gross Income:</label>
-            <div class="income-group">
-                <div class="income-input-wrapper">
-                    <div class="income-input">
-                        <span class="input-prefix">£</span>
-                        <input type="number" id="income" class="input-field format-number" placeholder="Enter your gross income" required>
+
+            <div class="form-field-group">
+                <label class ="form-label" for="income">Gross Income</label>
+                <span class="tooltip-icon">
+                    <i class="fa-regular fa-question-circle"></i>
+                    <div class="tooltip-content">
+                        <span class="tooltip-close">&times;</span>
+                        <div class="tooltip-title">Your Gross Income</div>
+                        <div class="tooltip-description">
+                            <p>Enter your total earnings before any deductions.</p>
+                        </div>
                     </div>
-                    <div class="error-message" id="income-error" style="display: none;">
-                        <i class="fas fa-exclamation-circle"></i> Required
+                </span>
+                <div class="income-group">
+                    <div class="income-input-wrapper">
+                        <div class="income-input">
+                            <span class="input-prefix">£</span>
+                            <input type="text" id="income" class="input-field" placeholder="Enter your gross income" required>
+                        </div>
+                        <div class="error-message" id="income-error" style="display: none;">
+                            <i class="fas fa-exclamation-circle"></i> Required
+                        </div>
                     </div>
+                    <select id="income-frequency">
+                        <option value="yearly">Per Year</option>
+                        <option value="monthly">Per Month (12 months)</option>
+                        <option value="weekly">Per Week (52 weeks)</option>
+                    </select>
                 </div>
-                <select id="income-frequency">
-                    <option value="yearly">Per Year</option>
-                    <option value="monthly">Per Month</option>
-                    <option value="weekly">Per Week</option>
+            </div>
+
+            <div class="form-field-group">
+                <label class ="form-label" for="tax-year">Tax Year</label>
+                <span class="tooltip-icon">
+                    <i class="fa-regular fa-question-circle"></i>
+                    <div class="tooltip-content">
+                        <span class="tooltip-close">&times;</span>
+                        <div class="tooltip-title">Tax Year</div>
+                        <div class="tooltip-description">
+                            <p>Pick the tax year for which you want to work out your after-tax salary.</p>
+                            <p><strong>Remember that the tax year begins on 6 April of each year.</strong></p>
+                        </div>
+                    </div>
+                </span>
+                <select id="tax-year">
+                    <option value="2024-2025">2024-2025</option>
+                    <!-- You can add more tax years as needed -->
                 </select>
             </div>
 
-            <label class ="form-label" for="tax-year">Tax Year:</label>
-            <select id="tax-year">
-                <option value="2024-2025">2024-2025</option>
-                <!-- You can add more tax years as needed -->
-            </select>
-
-            <label class ="form-label" for="age">Age:</label>
-            <input type="number" id="age" placeholder="Enter your age" required>
-
-            <label class ="form-label" for="pension">Pension Contribution:</label>
-            <div class="pension-group">
-                <div class="pension-input-wrapper">
-                    <div class="pension-input">
-                        <div class="pension-toggle-group">
-                            <input type="radio" id="pension-type-fixed" name="pension-type" value="fixed" checked>
-                            <label for="pension-type-fixed" class="toggle-option">£</label>
-                            <input type="radio" id="pension-type-percentage" name="pension-type" value="percentage">
-                            <label for="pension-type-percentage" class="toggle-option">%</label>
+            <div class="form-field-group">
+                <label class="form-label" for="age">Age</label>
+                <span class="tooltip-icon">
+                    <i class="fa-regular fa-question-circle"></i>
+                    <div class="tooltip-content">
+                        <span class="tooltip-close">&times;</span>
+                        <div class="tooltip-title">Your Age</div>
+                        <div class="tooltip-description">
+                            <p>Select your age category. Your age affects certain tax benefits, such as National Insurance contributions and personal allowances.</p>
                         </div>
-                        <input type="number" id="pension" class="format-number" placeholder="Enter your pension contribution" required>
                     </div>
-                </div>
-                <select id="pension-frequency">
-                    <option value="yearly">Per Year</option>
-                    <option value="monthly">Per Month</option>
-                    <option value="weekly">Per Week</option>
+                </span>
+                <select id="age">
+                    <option value="under-66">Under 66</option>
+                    <option value="66-74">66 - 74</option>
+                    <option value="75-plus">Over 74</option>
                 </select>
+            </div>
+
+            <div class="form-field-group">
+                <label class ="form-label" for="pension">Pension Contribution</label>
+                <span class="tooltip-icon">
+                    <i class="fa-regular fa-question-circle"></i>
+                    <div class="tooltip-content">
+                        <span class="tooltip-close">&times;</span>
+                        <div class="tooltip-title">Pension Contributions</div>
+                        <div class="tooltip-description">
+                            <p>If you pay into a pension via a PAYE system, enter the amount here. Remember to select the correct frequency; yearly, monthly, or weekly.</p>
+                            <p>This assumes you pay your pension out of your pre-tax salary (gross pay) via a NET pay arrangement. This means you don’t pay tax on your contributions.</p>
+                            <p>If you pay by salary sacrifice or relief at source, use the advanced setting and enter your details accordingly.</p>
+                        </div>
+                    </div>
+                </span>
+                <div class="pension-group">
+                    <div class="pension-input-wrapper">
+                        <div class="pension-input">
+                            <div class="pension-toggle-group">
+                                <input type="radio" id="pension-type-fixed" name="pension-type" value="fixed" checked>
+                                <label for="pension-type-fixed" class="toggle-option">£</label>
+                                <input type="radio" id="pension-type-percentage" name="pension-type" value="percentage">
+                                <label for="pension-type-percentage" class="toggle-option">%</label>
+                            </div>
+                            <input type="number" id="pension" placeholder="Enter your pension contribution" required>
+                        </div>
+                    </div>
+                    <select id="pension-frequency">
+                        <option value="yearly">Per Year</option>
+                        <option value="monthly">Per Month (12 months)</option>
+                        <option value="weekly">Per Week (52 weeks)</option>
+                    </select>
+                </div>
             </div>
 
             <div id="advanced-container" class="advanced-fields">
-                <label class ="form-label" for="tax-code">Tax Code:</label>
-                <input type="text" id="tax-code" placeholder="e.g., 1257L" value="1257L">
 
-                <label class ="form-label" for="student-loan-plan">Student Loan Plan:</label>
-                <select id="student-loan-plan">
-                    <option value="None">None</option>
-                    <option value="Plan 1">Plan 1</option>
-                    <option value="Plan 2" selected>Plan 2</option>
-                    <option value="Postgraduate">Postgraduate</option>
-                </select>
+                <div class="form-field-group">
+                    <label class ="form-label" for="tax-code">Tax Code:</label>
+                    <input type="text" id="tax-code" placeholder="e.g., 1257L" value="1257L">
+                </div>
 
-                <label class ="form-label" for="other-deductions">Other Deductions (£):</label>
-                <input type="number" id="other-deductions" class="format-input" placeholder="Enter additional deductions (if any)" value="0">
+                <div class="form-field-group">
+                    <label class ="form-label" for="student-loan-plan">Student Loan Plan:</label>
+                    <select id="student-loan-plan">
+                        <option value="None">None</option>
+                        <option value="Plan 1">Plan 1</option>
+                        <option value="Plan 2" selected>Plan 2</option>
+                        <option value="Postgraduate">Postgraduate</option>
+                    </select>
+                </div>
+
+                <div class="form-field-group">
+                    <label class ="form-label" for="other-deductions">Other Deductions (£):</label>
+                    <input type="number" id="other-deductions" class="format-input" placeholder="Enter additional deductions (if any)" value="0">
+                </div>
+
             </div>
 
-            <button type="button" id="calculate-btn">Calculate</button>
+            <div class="form-buttons">
+                <button type="button" id="calculate-btn">Calculate</button>
+                <button type="button" id="clear-btn">
+                    <i class="fas fa-sync-alt"></i>Clear
+                </button>
+            </div>
             
         </form>
 
@@ -304,6 +373,30 @@ function attachCalculatorFunctionality() {
     const calculateButton = document.getElementById('calculate-btn');
     if (!calculateButton) return;
 
+    attachFormPersistence(); // Add this line to make form persistence work
+
+        const clearButton = document.getElementById('clear-btn');
+        if (clearButton) {
+            clearButton.addEventListener("click", function () {
+                document.getElementById("income").value = "";
+                document.getElementById("income-frequency").value = "yearly";
+                document.getElementById("tax-year").value = "2024-2025";
+                document.getElementById("age").value = "under-66";
+                document.getElementById("pension").value = "";
+                document.getElementById("pension-type-fixed").checked = false;
+                document.getElementById("pension-type-percentage").checked = true;
+                document.getElementById("pension-frequency").value = "yearly";
+                document.getElementById("tax-code").value = "1257L";
+                document.getElementById("student-loan-plan").value = "None";
+                document.getElementById("other-deductions").value = "";
+                
+                // Hide results
+                document.getElementById('result-heading').style.display = 'none';
+                document.getElementById('result').style.display = 'none';
+                document.getElementById('result-content').innerHTML = "";
+            });
+        }    
+
         // Toggle advanced fields visibility
         document.getElementById('mode-toggle').addEventListener('change', function() {
             document.getElementById('advanced-container').style.display = this.checked ? 'block' : 'none';
@@ -314,6 +407,28 @@ function attachCalculatorFunctionality() {
         const incomeInput = document.getElementById("income");
         const incomeError = document.getElementById("income-error");
         const inputPrefix = incomeInput.previousElementSibling;
+
+        incomeInput.addEventListener("input", function () {
+            let rawValue = this.value.replace(/,/g, ''); // Remove commas for processing
+        
+            // Ensure the value contains only numbers and at most one decimal with two decimal places
+            if (!/^\d*\.?\d{0,2}$/.test(rawValue)) {
+                this.value = this.dataset.rawValue || ""; // Revert to last valid value
+                return;
+            }
+        
+            this.dataset.rawValue = rawValue; // Store the raw value without formatting
+        });
+        
+        incomeInput.addEventListener("blur", function () {
+            if (this.dataset.rawValue) {
+                let formattedValue = parseFloat(this.dataset.rawValue).toLocaleString('en-GB', { 
+                    minimumFractionDigits: 2, 
+                    maximumFractionDigits: 2 
+                });
+                this.value = formattedValue; // Format only on blur
+            }
+        });                         
 
         function toggleErrorState(isError) {
             incomeInput.classList.toggle("error", isError);
@@ -333,7 +448,7 @@ function attachCalculatorFunctionality() {
             const incomeError = document.getElementById("income-error");
 
             // Ensure we properly get the value from incomeInput
-            let income = parseFloat(incomeInput.value) || 0;
+            let income = parseFloat(incomeInput.value.replace(/,/g, '')) || 0;
 
             if (income <= 0) {
                 incomeInput.classList.add('error');
@@ -348,11 +463,11 @@ function attachCalculatorFunctionality() {
             inputPrefix.classList.remove('error');
             incomeError.style.display = "none";
 
-        const grossIncome = parseFloat(document.getElementById('income').value) || 0;
+        const grossIncome = parseFloat(document.getElementById('income').value.replace(/,/g, '')) || 0;
         const frequency = document.getElementById('income-frequency').value;
         let taxYear = document.getElementById('tax-year').value;
         let taxCode = document.getElementById('tax-code').value || "1257L";
-        let age = parseInt(document.getElementById('age').value) || 0;
+        let ageBracket = document.getElementById('age').value;
         let studentLoanPlan = document.getElementById('student-loan-plan').value;
         let otherDeductions = parseFloat(document.getElementById('other-deductions').value) || 0;
 
@@ -361,13 +476,9 @@ function attachCalculatorFunctionality() {
             alert('Please enter a valid income amount.');
             return;
         }
-        if (age <= 0) {
-            alert('Please enter a valid age.');
-            return;
-        }
         
         const multipliers = { monthly: 12, weekly: 52, yearly: 1 };
-        const yearlyIncome = (parseFloat(document.getElementById('income').value) || 0) * multipliers[frequency];        
+        const yearlyIncome = (parseFloat(document.getElementById('income').value.replace(/,/g, '')) || 0) * multipliers[frequency];
         const pensionInput = document.getElementById('pension');
         const pensionFixed = document.getElementById('pension-type-fixed');
         const pensionPercentage = document.getElementById('pension-type-percentage');
@@ -473,31 +584,31 @@ function attachCalculatorFunctionality() {
                     <tbody>
                         <tr>
                             <td>Gross Income</td>
-                            <td id="result-gross-income" class="format-number">£0.00</td>
+                            <td id="result-gross-income" class="result-value">£0.00</td>
                         </tr>
                         <tr>
                             <td>Income Tax</td>
-                            <td id="result-income-tax" class="format-number">£0.00</td>
+                            <td id="result-income-tax" class="result-value">£0.00</td>
                         </tr>
                         <tr>
                             <td>National Insurance</td>
-                            <td id="result-ni" class="format-number">£0.00</td>
+                            <td id="result-ni" class="result-value">£0.00</td>
                         </tr>
                         <tr>
                             <td>Student Loan</td>
-                            <td id="result-student-loan" class="format-number">£0.00</td>
+                            <td id="result-student-loan" class="result-value">£0.00</td>
                         </tr>
                         <tr>
                             <td>Pension</td>
-                            <td id="result-pension" class="format-number">£0.00</td>
+                            <td id="result-pension" class="result-value">£0.00</td>
                         </tr>
                         <tr>
                             <td>Other Deductions</td>
-                            <td id="result-other-deductions" class="format-number">£0.00</td>
+                            <td id="result-other-deductions" class="result-value">£0.00</td>
                         </tr>
                         <tr class="net-income">
-                            <td><strong>Net Income</strong></td>
-                            <td id="result-net-income" class="format-number">£0.00</td>
+                            <td><strong style="color: white;">Net Income</strong></td>
+                            <td id="result-net-income" class="result-value">£0.00</td>
                         </tr>
                     </tbody>
                 </table>
@@ -510,16 +621,54 @@ function attachCalculatorFunctionality() {
         );
         
     });
+
+        // Tooltip Click Handling
+        document.addEventListener("click", function (event) {
+            const tooltipIcon = event.target.closest(".tooltip-icon");
+        
+            if (tooltipIcon) {
+                event.stopPropagation(); // Prevent click from closing itself
+        
+                // Close all other tooltips first
+                document.querySelectorAll(".tooltip-icon").forEach(tip => {
+                    if (tip !== tooltipIcon) {
+                        tip.classList.remove("active");
+                    }
+                });
+        
+                // Toggle the clicked tooltip
+                tooltipIcon.classList.toggle("active");
+            } else {
+                // If clicking outside any tooltip, close all tooltips
+                document.querySelectorAll(".tooltip-icon").forEach(icon => {
+                    icon.classList.remove("active");
+                });
+            }
+        });                     
+
 }
 
 function setDefaultPensionValues() {
     const pensionInput = document.getElementById('pension');
     const pensionFixed = document.getElementById('pension-type-fixed');
     const pensionPercentage = document.getElementById('pension-type-percentage');
+    const pensionFrequency = document.getElementById('pension-frequency');
 
-    if (pensionInput) pensionInput.value = "0"; // Set default pension contribution to 0
-    if (pensionFixed) pensionFixed.checked = false; // Ensure £ is not selected
-    if (pensionPercentage) pensionPercentage.checked = true; // Ensure % is selected by default
+    // Restore saved pension contribution value
+    if (pensionInput) pensionInput.value = localStorage.getItem("pension") || "0";
+
+    // Restore pension type selection
+    const savedPensionType = localStorage.getItem("pension-type");
+    if (savedPensionType === "fixed") {
+        pensionFixed.checked = true;
+    } else {
+        pensionPercentage.checked = true;
+    }
+
+    // Restore pension frequency selection
+    if (pensionFrequency) {
+        pensionFrequency.value = localStorage.getItem("pension-frequency") || "yearly";
+    }
 }
 
 // Extract personal allowance from the tax code by taking the digits and multiplying by 10
@@ -545,10 +694,10 @@ function calculateIncomeTax(adjustedIncome, personalAllowance, rules) {
 }
 
 // Calculate National Insurance (NI); assume NI is not due if age is 65 or above
-function calculateNI(grossIncome, age, niThreshold, niRate) {
-    if (age >= 65) {
-        return 0;
-    }
+function calculateNI(grossIncome, ageBracket, niThreshold, niRate) {
+    if (ageBracket === "66-74" || ageBracket === "75-plus") {
+        return 0; // No NI if 66+
+    }    
     return grossIncome > niThreshold ? (grossIncome - niThreshold) * niRate : 0;
 }
 
@@ -582,18 +731,20 @@ function attachResultViewButtons(yearlyIncome,
         // Convert values dynamically based on selected frequency
         const factor = activeKey === "yearly" ? 1 : activeKey === "monthly" ? 1 / 12 : 1 / 52;
 
-        document.getElementById('result-gross-income').textContent = `£${(yearlyIncome * factor).toFixed(2)}`;
-        document.getElementById('result-income-tax').textContent = `£${(incomeTax * factor).toFixed(2)}`;
-        document.getElementById('result-ni').textContent = `£${(nationalInsurance * factor).toFixed(2)}`;
-        document.getElementById('result-student-loan').textContent = `£${(studentLoan * factor).toFixed(2)}`;
+        document.getElementById('result-gross-income').textContent = 
+        `£${(yearlyIncome * factor).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    
+        document.getElementById('result-income-tax').textContent = `£${(incomeTax * factor).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('result-ni').textContent = `£${(nationalInsurance * factor).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('result-student-loan').textContent = `£${(studentLoan * factor).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
         document.getElementById('result-pension').textContent = 
-        activeKey === "yearly" ? `£${pension.toFixed(2)}` :
-        activeKey === "monthly" ? `£${(pension / 12).toFixed(2)}` :
+        activeKey === "yearly" ? `£${pension.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` :
+        activeKey === "monthly" ? `£${(pension / 12).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` :
         `£${(pension / 52).toFixed(2)}`;
 
-        document.getElementById('result-other-deductions').textContent = `£${(otherDeductions * factor).toFixed(2)}`;
-        document.getElementById('result-net-income').textContent = `£${(netIncome * factor).toFixed(2)}`;
+        document.getElementById('result-other-deductions').textContent = `£${(otherDeductions * factor).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('result-net-income').textContent = `£${(netIncome * factor).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
     }
 
@@ -615,8 +766,107 @@ function attachResultViewButtons(yearlyIncome,
     buttons.weekly.addEventListener('click', () => setActiveButton('weekly'));
 }
 
+// Form Persistence Functionality
+function attachFormPersistence() {
+    const form = document.getElementById("calculator-form");
+    if (!form) return;
+
+    const inputs = form.querySelectorAll("input, select");
+
+    // Load saved form data on page load
+    inputs.forEach(input => {
+        const savedValue = localStorage.getItem(input.id);
+        if (savedValue !== null) {
+            if (input.type === "checkbox" || input.type === "radio") {
+                input.checked = savedValue === "true";
+            } else {
+                input.value = savedValue;
+            }
+        }
+    });
+
+    // Save pension type selection (fixed or percentage)
+    const pensionFixed = document.getElementById("pension-type-fixed");
+    const pensionPercentage = document.getElementById("pension-type-percentage");
+
+    pensionFixed.addEventListener("change", () => {
+        localStorage.setItem("pension-type", "fixed");
+    });
+
+    pensionPercentage.addEventListener("change", () => {
+        localStorage.setItem("pension-type", "percentage");
+    });
+
+    // Restore pension type selection
+    const savedPensionType = localStorage.getItem("pension-type");
+    if (savedPensionType === "fixed") {
+        pensionFixed.checked = true;
+    } else {
+        pensionPercentage.checked = true;
+    }
+
+    // Save & Restore Pension Contribution Input
+    const pensionInput = document.getElementById("pension");
+    if (pensionInput) {
+        pensionInput.value = localStorage.getItem("pension") || "";
+
+        pensionInput.addEventListener("input", () => {
+            localStorage.setItem("pension", pensionInput.value);
+        });
+    }
+
+    // Save & Restore Pension Frequency Selection
+    const pensionFrequency = document.getElementById("pension-frequency");
+    if (pensionFrequency) {
+        pensionFrequency.value = localStorage.getItem("pension-frequency") || "yearly";
+
+        pensionFrequency.addEventListener("change", () => {
+            localStorage.setItem("pension-frequency", pensionFrequency.value);
+        });
+    }
+
+    // Save & Restore Advanced Mode
+    const modeToggle = document.getElementById("mode-toggle");
+    if (modeToggle) {
+        modeToggle.checked = localStorage.getItem("advanced-mode") === "true";
+        document.getElementById('advanced-container').style.display = modeToggle.checked ? 'block' : 'none';
+        document.getElementById('toggle-label').textContent = modeToggle.checked ? 'Advanced Mode' : 'Basic Mode';
+
+        modeToggle.addEventListener("change", () => {
+            localStorage.setItem("advanced-mode", modeToggle.checked);
+            document.getElementById('advanced-container').style.display = modeToggle.checked ? 'block' : 'none';
+            document.getElementById('toggle-label').textContent = modeToggle.checked ? 'Advanced Mode' : 'Basic Mode';
+        });
+    }
+
+    // Save other input values
+    inputs.forEach(input => {
+        input.addEventListener("input", () => {
+            if (input.type === "checkbox" || input.type === "radio") {
+                localStorage.setItem(input.id, input.checked);
+            } else {
+                localStorage.setItem(input.id, input.value);
+            }
+        });
+    });
+
+    // Clear form data when clicking "Clear" button
+    const clearButton = document.getElementById("clear-btn");
+    if (clearButton) {
+        clearButton.addEventListener("click", () => {
+            inputs.forEach(input => {
+                localStorage.removeItem(input.id);
+            });
+            localStorage.removeItem("pension-type");
+            localStorage.removeItem("pension");
+            localStorage.removeItem("pension-frequency");
+            localStorage.removeItem("advanced-mode");
+        });
+    }
+}
+
 function updateResultView(amount, label) {
-    document.getElementById('result-content').innerHTML = `<p><strong>${label}:</strong> £${amount.toFixed(2)}</p>`;
+    document.getElementById('result-content').innerHTML = `<p><strong>${label}:</strong> £${amount.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>`;
 }
 
 // =====================================================================
