@@ -26,6 +26,15 @@
         <a href="#/welcome" id="logo-link" onclick="navigateTo('/welcome'); return false;">
             <img src="assets/header_logo.svg" alt="Emporah Logo" id="header-logo">
         </a>
+        <!-- Header Icons -->
+        <div class="header-icons">
+            <div class="header-item">
+                <i class="fa-regular fa-question-circle" id="help-icon" aria-label="Help"></i> 
+            </div>
+            <div class="header-item">
+                <i class="fa fa-cog" id="settings-icon" aria-label="Settings"></i>
+            </div>
+        </div>
     </header>
 
     <!-- Side Scroll Navigation -->
@@ -69,6 +78,20 @@
     </main>
 
     <script src="app.js"></script>
+
+    <!-- Settings Sidebar -->
+    <aside id="right-sidebar">
+        <div class="right-sidebar-header">
+            <span>Settings</span>
+            <button id="close-right-sidebar">&times;</button>
+        </div>
+        <div class="right-sidebar-content">
+            <div class="group-label" role="heading">Global Settings</div>
+            <p>No settings available at the moment. Coming soon!</p>
+            <div class="group-label" role="heading">Tool Settings</div>
+            <p>No settings available at the moment. Coming soon!</p>
+        </div>
+    </aside>
 
 </body>
 
