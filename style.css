@@ -18,7 +18,7 @@ main {
     background-color: black;
     color: white;
     min-height: calc(100vh - var(--header-height));
-    transition: margin-left 0.3s ease;
+    transition: margin 0.3s ease;
     overflow: hidden;
 }
 
@@ -228,6 +228,46 @@ header h1 {
     background-color: #ffffff;
 }
 
+/* Header Icons */
+.header-icons {
+    font-size: 18px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+    height: 100%;
+    color: #fff;
+    position: absolute;
+    right: 0;
+}
+
+.header-item {
+    align-items: center;
+    height: 100%;
+    display: flex;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.header-icons i {
+    padding: 0 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.header-item:hover, .header-item.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-item:hover i {
+    transform: scale(1.1);
+}
+
+.header-item.active {
+    background-color: rgba(255, 255, 255, 0.1); /* Persistent hover effect */
+    color: #00b073;
+}
+
 /* -------------------------------------------------- NAVIGATION -------------------------------------------------- */
 
 /* Side Navigation (visible by default) */
@@ -279,12 +319,12 @@ nav ul li a i {
 }
 
 /* Hover Effect: Icon Color Transitions to White */
-nav ul li a:hover i {
+nav ul li a:hover i, nav ul li a.active i {
     color: #ffffff;
     transform: scale(1.1);
 }
 
-nav ul li a:hover {
+nav ul li a:hover, nav ul li a.active {
     background-color: rgba(0, 176, 115, 0.5);
 }
 
@@ -307,6 +347,73 @@ nav ul li:hover > a {
 /* When the sidebar is closed */
 main.sidebar-closed {
     margin-left: 0; 
+}
+
+/* Right Sidebar */
+#right-sidebar {
+    position: fixed;
+    top: var(--header-height);
+    right: -240px; /* Hidden by default */
+    width: 240px;
+    height: calc(100vh - var(--header-height));
+    background-color: #1a1a1a;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    z-index: 100;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Open State */
+#right-sidebar.open {
+    right: 0;
+}
+
+/* Sidebar Header */
+.right-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #0d0d0d;
+    border-bottom: 1px solid #333;
+}
+
+.right-sidebar-header span {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.5rem 0;
+}
+
+/* Close Button */
+#close-right-sidebar {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 0;
+    align-self: center;
+}
+
+#close-right-sidebar:hover {
+    color: #00b073;
+}
+
+/* Ensure Main Content Adjusts */
+main.sidebar-right-open {
+    margin-right: 240px;
+}
+
+.right-sidebar-content p {
+    padding: 10px 20px;
+    margin: 0;
+    font-size: 12px;
 }
 
 /* -------------------------------------------------- BREADCRUMB -------------------------------------------------- */
@@ -404,7 +511,7 @@ main.sidebar-closed {
 
 /* Welcome Marketing Widget */
 .marketing-widget {
-    background: linear-gradient(135deg, rgba(0, 176, 115, 0.15), rgba(0, 0, 0, 0.8));
+    background: rgba(0, 176, 115, 0.15);
     padding: 24px;
     margin-bottom: 0;
     margin-top: 1.25rem;
