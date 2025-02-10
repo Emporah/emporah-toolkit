@@ -32,6 +32,7 @@ function updateBreadcrumb(page) {
 // =====================================================================
 // Sidebar Navigation
 // =====================================================================
+// Main Sidebar
 burgerButton.addEventListener('click', () => {
     sidebar.classList.toggle('open');
     mainContent.classList.toggle('sidebar-closed');
@@ -42,7 +43,63 @@ burgerButton.addEventListener('click', () => {
 function navigateTo(page) {
     window.location.hash = page;
     loadContent(page);
+
+    // Remove .active class from all sidebar links
+    document.querySelectorAll("nav ul li a").forEach(link => {
+        link.classList.remove("active");
+    });
+
+    // Find the link that matches the current page and add .active
+    const activeLink = document.querySelector(`nav ul li a[href="#${page}"]`);
+    if (activeLink) {
+        activeLink.classList.add("active");
+    }
 }
+
+// Settings Sidebar
+document.addEventListener('DOMContentLoaded', () => {
+    const settingsButton = document.getElementById('settings-icon').closest('.header-item');
+    const rightSidebar = document.getElementById('right-sidebar');
+    const closeRightSidebar = document.getElementById('close-right-sidebar');
+    const mainContent = document.getElementById('main-content');
+
+    if (settingsButton && rightSidebar && closeRightSidebar) {
+        settingsButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            rightSidebar.classList.toggle('open');
+            mainContent.classList.toggle('sidebar-right-open');
+            settingsButton.closest('.header-item').classList.toggle('active', rightSidebar.classList.contains('open'));
+            settingsButton.setAttribute('aria-expanded', rightSidebar.classList.contains('open'));
+        });        
+
+        closeRightSidebar.addEventListener('click', () => {
+            rightSidebar.classList.remove('open');
+            mainContent.classList.remove('sidebar-right-open');
+            settingsButton.classList.remove('active');
+            settingsButton.setAttribute('aria-expanded', "false");
+        });
+
+        document.addEventListener('click', (event) => {
+            const isClickOnSettingsButton = event.target === settingsButton;
+            const isClickOnCloseButton = event.target === closeRightSidebar;
+        
+            if (isClickOnSettingsButton) {
+                rightSidebar.classList.toggle('open');
+                mainContent.classList.toggle('sidebar-right-open');
+                settingsButton.classList.toggle('active');
+                settingsButton.setAttribute('aria-expanded', rightSidebar.classList.contains('open'));
+            } else if (isClickOnCloseButton) {
+                rightSidebar.classList.remove('open');
+                mainContent.classList.remove('sidebar-right-open');
+                settingsButton.classList.remove('active');
+                settingsButton.setAttribute('aria-expanded', "false");
+            }
+        });
+        
+    } else {
+        console.error("Error: One or more sidebar elements were not found in the DOM.");
+    }
+});
 
 // =====================================================================
 // Page Load and Navigation Handling
