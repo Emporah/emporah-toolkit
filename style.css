@@ -11,7 +11,7 @@ body {
     background-color: #000;
 }
 
-main {
+#main-content-container {
     margin-left: 240px;
     padding: 0 1.25rem;
     padding-top: calc(var(--header-height));
@@ -19,7 +19,22 @@ main {
     color: white;
     min-height: calc(100vh - var(--header-height));
     transition: margin 0.3s ease;
-    overflow: hidden;
+    overflow: hidden;    
+}
+
+main {
+    flex: 1;
+}
+
+::-webkit-scrollbar {
+    background: #18211f;
+    height: 10px;
+    width: 10px
+}
+
+::-webkit-scrollbar-thumb {
+    background: #414141;
+    border: 2px solid #18211f;
 }
 
 .title {
@@ -345,7 +360,7 @@ nav ul li:hover > a {
 }
 
 /* When the sidebar is closed */
-main.sidebar-closed {
+#main-content-container.sidebar-closed {
     margin-left: 0; 
 }
 
@@ -406,7 +421,7 @@ main.sidebar-closed {
 }
 
 /* Ensure Main Content Adjusts */
-main.sidebar-right-open {
+#main-content-container.sidebar-right-open {
     margin-right: 240px;
 }
 
@@ -948,4 +963,20 @@ main.sidebar-right-open {
 .pension-toggle-group input:checked + label {
     background: #00b073;
     border-color: #00b073;
+}
+
+/* -------------------------------------------------- TEMPORARY CODE -------------------------------------------------- */
+
+/* Hide Planned Tools & Features */
+.group-label.favourites,
+.favourites-description,
+.group-label.planners,
+#nav-budget,
+.group-label.trackers,
+#nav-income, #nav-savings,
+#nav-debt,
+#nav-expenses,
+#nav-profit-loss,
+#nav-investment {
+    display: none;
 }
