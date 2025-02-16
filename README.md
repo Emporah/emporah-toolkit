@@ -1,7 +1,7 @@
 # Emporah 💰
 A personal, evolving project born out of frustration with using multiple, time-inefficient tools (such as spreadsheets) to manage finances.
 
-🚀 Take Charge of Your Finances!
+🚀 Conquer Your Finances!
 Emporah is an emporium of financial tools designed to empower individuals and small businesses who lack the time or resources to hire a financial advisor or accountant. Most individuals and small business owners find finance and accounting laborious—I'm hoping to change that!
 
 Emporah aims to simplify financial calculations, planning, and decision-making while making finance more accessible and engaging.
