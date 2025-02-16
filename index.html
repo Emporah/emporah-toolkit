@@ -41,22 +41,39 @@
     <nav>
         <ul id="navbar">
             <li><a href="#/dashboard" id="nav-dashboard" aria-label="Go to Dashboard"><i class="fas fa-tachometer"></i>Dashboard</a></li>
-            <li class="group-label" role="heading" aria-level="2">Quick Links</li>
-            <li><a href="#/pay-calculator" id="nav-calculator" aria-label="Go to Pay Calculator"><i class="fas fa-calculator"></i> Pay Calculator</a></li>
+
+            <li class="group-label favourites" role="heading" aria-level="2">Favourites</li>
+            <li class="favourites-description" style="color: #fff; padding: 10px 20px;">No favourites yet... Coming soon...</li>
+
+            <li class="group-label planners" role="heading" aria-level="2">Planners</li>
             <li><a href="#/budget-planner" id="nav-budget" aria-label="Go to Budget Planner"><i class="fas fa-wallet"></i> Budget Planner</a></li>
+
+            <li class="group-label trackers" role="heading" aria-level="2">Trackers</li>
+            <li><a href="#/income-tracker" id="nav-income" aria-label="Go to Income Tracker"><i class="fas fa-money-check-alt"></i> Income Tracker</a></li>
             <li><a href="#/savings-tracker" id="nav-savings" aria-label="Go to Savings Tracker"><i class="fas fa-piggy-bank"></i> Savings Tracker</a></li>
+            <li><a href="#/debt-tracker" id="nav-debt" aria-label="Go to Debt Tracker"><i class="fas fa-file-invoice-dollar"></i> Debt Tracker</a></li>
+            <li><a href="#/expenses-tracker" id="nav-expenses" aria-label="Go to Expenses Tracker"><i class="fas fa-receipt"></i> Expenses Tracker</a></li>
+            <li><a href="#/profit-loss-tracker" id="nav-profit-loss" aria-label="Go to Profit & Loss Tracker"><i class="fas fa-balance-scale"></i> Profit & Loss Tracker</a></li>
+
+            <li class="group-label calculators" role="heading" aria-level="2">Calculators</li>
+            <li><a href="#/pay-calculator" id="nav-calculator" aria-label="Go to Pay Calculator"><i class="fas fa-calculator"></i> Pay Calculator</a></li>
+            <li><a href="#/gross-income-calculator" id="nav-gross-income" aria-label="Go to Gross Income Calculator"><i class="fas fa-money-bill-wave"></i> Gross Income Calculator</a></li>
+            <li><a href="#/loan-calculator" id="nav-loan" aria-label="Go to Loan Calculator"><i class="fas fa-coins"></i> Loan Calculator</a></li>
+            <li><a href="#/overdraft-calculator" id="nav-overdraft" aria-label="Go to Overdraft Calculator"><i class="fas fa-university"></i> Overdraft Calculator</a></li>
             <li><a href="#/investment-calculator" id="nav-investment" aria-label="Go to Investment Calculator"><i class="fas fa-chart-line"></i> Investment Calculator</a></li>
         </ul>
     </nav>
 
     <!-- Main Content -->
-    <main id="main-content">
-        <div id="breadcrumb-nav"></div>
-        <div class="marketing-widget">
-            <span class="title"><b>Welcome to Emporah</b></span>
-            <span class="description">Select a tool from the menu to your left or go to your dashboard to get started.</span>
-            <button class="dashboard-btn" onclick="navigateTo('/dashboard')">Go to Dashboard</button>
-        </div>
+    <div id="main-content-container">
+        <main id="main-content">
+            <div id="breadcrumb-nav"></div>
+            <div class="marketing-widget">
+                <span class="title"><b>Welcome to Emporah</b></span>
+                <span class="description">Select a tool from the menu to your left or go to your dashboard to get started.</span>
+                <button class="dashboard-btn" onclick="navigateTo('/dashboard')">Go to Dashboard</button>
+            </div>
+        </main>
 
         <!-- Footer -->
         <footer id="site-footer">
@@ -72,10 +89,11 @@
             </div>
             <div class="footer-legal-info"><a class="link">&copy; <span id="footer-year"></span> Emporah. All rights reserved.</a></div>
         </footer>
+
         <script>
             document.getElementById("footer-year").textContent = new Date().getFullYear();
         </script>
-    </main>
+    </div>
 
     <script src="app.js"></script>
 
