@@ -15,7 +15,14 @@ const pageTitles = {
     "/pay-calculator": "Pay Calculator",
     "/budget-planner": "Budget Planner",
     "/savings-tracker": "Savings Tracker",
-    "/investment-calculator": "Investment Calculator"
+    "/investment-calculator": "Investment Calculator",
+    "/loan-calculator": "Loan Calculator",
+    "/debt-tracker": "Debt Tracker",
+    "/income-tracker": "Income Tracker",
+    "/expenses-tracker": "Expenses Tracker",
+    "/overdraft-calculator": "Overdraft Calculator",
+    "/profit-loss-tracker": "Profit & Loss Tracker",
+    "/gross-income-calculator": "Gross Income Calculator"
 };
 
 function updateBreadcrumb(page) {
@@ -35,7 +42,7 @@ function updateBreadcrumb(page) {
 // Main Sidebar
 burgerButton.addEventListener('click', () => {
     sidebar.classList.toggle('open');
-    mainContent.classList.toggle('sidebar-closed');
+    document.getElementById("main-content-container").classList.toggle('sidebar-closed');
     burgerButton.classList.toggle('active');
     burgerButton.setAttribute('aria-expanded', sidebar.classList.contains('open'));
 });
@@ -67,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         settingsButton.addEventListener('click', (event) => {
             event.stopPropagation();
             rightSidebar.classList.toggle('open');
-            mainContent.classList.toggle('sidebar-right-open');
+            document.getElementById("main-content-container").classList.toggle('sidebar-right-open');
             settingsButton.closest('.header-item').classList.toggle('active', rightSidebar.classList.contains('open'));
             settingsButton.setAttribute('aria-expanded', rightSidebar.classList.contains('open'));
         });        
@@ -130,6 +137,11 @@ function loadContent(page) {
         return;
     }
 
+    // Define the mapping of page routes to their respective HTML files
+    const pagePaths = {
+        "/pay-calculator": "pages/pay-calculator.html"
+    };
+
     // Ensure breadcrumb-nav exists inside main-content
     document.addEventListener("DOMContentLoaded", () => {
         if (!document.getElementById("breadcrumb-nav")) {
@@ -153,23 +165,61 @@ function loadContent(page) {
             <div class="generic-header">
                 <div class="header-content">
                     <h1 class="title">Dashboard</h1>
-                    <p class="description">Welcome to your Emporah Dashboard. This is your central hub for managing and accessing financial tools quickly.</p>
+                    <p class="description">Welcome to your Emporah Dashboard. This is your central hub for managing your financial tools access and financial summary.</p>
                 </div>
             </div>
 
             <div class="dashboard-grid">
-                <div class="dashboard-tile" onclick="navigateTo('/pay-calculator')">
-                    <i class="fas fa-calculator"></i>
-                    <span>Pay Calculator</span>
-                </div>
                 <div class="dashboard-tile" onclick="navigateTo('/budget-planner')">
                     <i class="fas fa-wallet"></i>
                     <span>Budget Planner</span>
                 </div>
+
+                <div class="dashboard-tile" onclick="navigateTo('/income-tracker')">
+                    <i class="fas fa-money-check-alt"></i>
+                    <span>Income Tracker</span>
+                </div>                
+
                 <div class="dashboard-tile" onclick="navigateTo('/savings-tracker')">
                     <i class="fas fa-piggy-bank"></i>
                     <span>Savings Tracker</span>
                 </div>
+
+                <div class="dashboard-tile" onclick="navigateTo('/debt-tracker')">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Debt Tracker</span>
+                </div>
+
+                <div class="dashboard-tile" onclick="navigateTo('/expenses-tracker')">
+                    <i class="fas fa-receipt"></i>
+                    <span>Expenses Tracker</span>
+                </div>
+
+                <div class="dashboard-tile" onclick="navigateTo('/profit-loss-tracker')">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>Profit & Loss Tracker</span>
+                </div>
+
+                <div class="dashboard-tile" onclick="navigateTo('/pay-calculator')">
+                    <i class="fas fa-calculator"></i>
+                    <span>Pay Calculator</span>
+                </div>
+
+                <div class="dashboard-tile" onclick="navigateTo('/gross-income-calculator')">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Gross Income Calculator</span>
+                </div>
+
+                <div class="dashboard-tile" onclick="navigateTo('/loan-calculator')">
+                    <i class="fas fa-coins"></i>
+                    <span>Loan Calculator</span>
+                </div>
+
+                <div class="dashboard-tile" onclick="navigateTo('/overdraft-calculator')">
+                    <i class="fas fa-university"></i>
+                    <span>Overdraft Calculator</span>
+                </div>
+                
                 <div class="dashboard-tile" onclick="navigateTo('/investment-calculator')">
                     <i class="fas fa-chart-line"></i>
                     <span>Investment Calculator</span>
@@ -177,175 +227,18 @@ function loadContent(page) {
             </div>
         `;
     }
-    else if (page === '/pay-calculator') { // Pay Calculator
-        pageContent = `
-        <div class="generic-header">
-            <div class="header-content">
-                <h1 class="title">Pay Calculator</h1>
-                <p class="description">Adjust your details to calculate your take-home pay accurately.</p>
-            </div>
-        </div>
-
-        <div class="form-header">
-            <span>Your Details</span>
-            <div class="toggle-container">
-                <span id="toggle-label">Basic Mode</span>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="mode-toggle">
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-        </div>
-
-        <form id="calculator-form">
-
-            <div class="form-field-group">
-                <label class ="form-label" for="income">Gross Income</label>
-                <span class="tooltip-icon">
-                    <i class="fa-regular fa-question-circle"></i>
-                    <div class="tooltip-content">
-                        <span class="tooltip-close">&times;</span>
-                        <div class="tooltip-title">Your Gross Income</div>
-                        <div class="tooltip-description">
-                            <p>Enter your total earnings before any deductions.</p>
-                        </div>
-                    </div>
-                </span>
-                <div class="income-group">
-                    <div class="income-input-wrapper">
-                        <div class="income-input">
-                            <span class="input-prefix">£</span>
-                            <input type="text" id="income" class="input-field" placeholder="Enter your gross income" required>
-                        </div>
-                        <div class="error-message" id="income-error" style="display: none;">
-                            <i class="fas fa-exclamation-circle"></i> Required
-                        </div>
-                    </div>
-                    <select id="income-frequency">
-                        <option value="yearly">Per Year</option>
-                        <option value="monthly">Per Month (12 months)</option>
-                        <option value="weekly">Per Week (52 weeks)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-field-group">
-                <label class ="form-label" for="tax-year">Tax Year</label>
-                <span class="tooltip-icon">
-                    <i class="fa-regular fa-question-circle"></i>
-                    <div class="tooltip-content">
-                        <span class="tooltip-close">&times;</span>
-                        <div class="tooltip-title">Tax Year</div>
-                        <div class="tooltip-description">
-                            <p>Pick the tax year for which you want to work out your after-tax salary.</p>
-                            <p><strong>Remember that the tax year begins on 6 April of each year.</strong></p>
-                        </div>
-                    </div>
-                </span>
-                <select id="tax-year">
-                    <option value="2024-2025">2024-2025</option>
-                    <!-- You can add more tax years as needed -->
-                </select>
-            </div>
-
-            <div class="form-field-group">
-                <label class="form-label" for="age">Age</label>
-                <span class="tooltip-icon">
-                    <i class="fa-regular fa-question-circle"></i>
-                    <div class="tooltip-content">
-                        <span class="tooltip-close">&times;</span>
-                        <div class="tooltip-title">Your Age</div>
-                        <div class="tooltip-description">
-                            <p>Select your age category. Your age affects certain tax benefits, such as National Insurance contributions and personal allowances.</p>
-                        </div>
-                    </div>
-                </span>
-                <select id="age">
-                    <option value="under-66">Under 66</option>
-                    <option value="66-74">66 - 74</option>
-                    <option value="75-plus">Over 74</option>
-                </select>
-            </div>
-
-            <div class="form-field-group">
-                <label class ="form-label" for="pension">Pension Contribution</label>
-                <span class="tooltip-icon">
-                    <i class="fa-regular fa-question-circle"></i>
-                    <div class="tooltip-content">
-                        <span class="tooltip-close">&times;</span>
-                        <div class="tooltip-title">Pension Contributions</div>
-                        <div class="tooltip-description">
-                            <p>If you pay into a pension via a PAYE system, enter the amount here. Remember to select the correct frequency; yearly, monthly, or weekly.</p>
-                            <p>This assumes you pay your pension out of your pre-tax salary (gross pay) via a NET pay arrangement. This means you don’t pay tax on your contributions.</p>
-                            <p>If you pay by salary sacrifice or relief at source, use the advanced setting and enter your details accordingly.</p>
-                        </div>
-                    </div>
-                </span>
-                <div class="pension-group">
-                    <div class="pension-input-wrapper">
-                        <div class="pension-input">
-                            <div class="pension-toggle-group">
-                                <input type="radio" id="pension-type-fixed" name="pension-type" value="fixed" checked>
-                                <label for="pension-type-fixed" class="toggle-option">£</label>
-                                <input type="radio" id="pension-type-percentage" name="pension-type" value="percentage">
-                                <label for="pension-type-percentage" class="toggle-option">%</label>
-                            </div>
-                            <input type="number" id="pension" placeholder="Enter your pension contribution" required>
-                        </div>
-                    </div>
-                    <select id="pension-frequency">
-                        <option value="yearly">Per Year</option>
-                        <option value="monthly">Per Month (12 months)</option>
-                        <option value="weekly">Per Week (52 weeks)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div id="advanced-container" class="advanced-fields">
-
-                <div class="form-field-group">
-                    <label class ="form-label" for="tax-code">Tax Code:</label>
-                    <input type="text" id="tax-code" placeholder="e.g., 1257L" value="1257L">
-                </div>
-
-                <div class="form-field-group">
-                    <label class ="form-label" for="student-loan-plan">Student Loan Plan:</label>
-                    <select id="student-loan-plan">
-                        <option value="None">None</option>
-                        <option value="Plan 1">Plan 1</option>
-                        <option value="Plan 2" selected>Plan 2</option>
-                        <option value="Postgraduate">Postgraduate</option>
-                    </select>
-                </div>
-
-                <div class="form-field-group">
-                    <label class ="form-label" for="other-deductions">Other Deductions (£):</label>
-                    <input type="number" id="other-deductions" class="format-input" placeholder="Enter additional deductions (if any)" value="0">
-                </div>
-
-            </div>
-
-            <div class="form-buttons">
-                <button type="button" id="calculate-btn">Calculate</button>
-                <button type="button" id="clear-btn">
-                    <i class="fas fa-sync-alt"></i>Clear
-                </button>
-            </div>
-            
-        </form>
-
-        <div id="result-heading" style="display: none;">
-            <span>Results</span>
-        </div>
-        <div id="result" style="display: none;">
-            <div id="result-controls">
-                <button type="button" id="view-yearly">Yearly</button>
-                <button type="button" id="view-monthly">Monthly</button>
-                <button type="button" id="view-weekly">Weekly</button>
-            </div>
-            <div id="result-content"></div>
-        </div>
-        `;
+    else if (page === '/pay-calculator') { 
+        fetch("pages/pay-calculator.html")
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("main-content").innerHTML = `<div id="breadcrumb-nav"></div>` + html;
+                updateBreadcrumb(page);
+                attachCalculatorFunctionality(); // Ensure calculator scripts reapply
+            })
+            .catch(error => {
+                console.error("Error loading Pay Calculator page:", error);
+                document.getElementById("main-content").innerHTML = `<h2>Page not found</h2>`;
+            });
 
         if (page === "/pay-calculator") {
             setTimeout(() => {
@@ -385,6 +278,76 @@ function loadContent(page) {
             </div>
         `;
     }
+    else if (page === "/loan-calculator") {
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Loan Calculator</h1>
+                    <p class="description">Coming soon...</p>
+                </div>
+            </div>
+        `;
+    }
+    else if (page === "/debt-tracker") { // Debt Tracker
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Debt Tracker</h1>
+                    <p class="description">Coming soon...</p>
+                </div>
+            </div>
+        `;
+    }
+    else if (page === "/income-tracker") { // Income Tracker
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Income Tracker</h1>
+                    <p class="description">Coming soon...</p>
+                </div>
+            </div>
+        `;
+    }
+    else if (page === "/expenses-tracker") { // Expenses Tracker
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Expenses Tracker</h1>
+                    <p class="description">Coming soon...</p>
+                </div>
+            </div>
+        `;
+    }
+    else if (page === "/overdraft-calculator") { // Overdraft Calculator
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Overdraft Calculator</h1>
+                    <p class="description">Coming soon...</p>
+                </div>
+            </div>
+        `;
+    }
+    else if (page === "/profit-loss-tracker") { // Profit & Loss Tracker
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Profit & Loss Tracker</h1>
+                    <p class="description">Coming soon...</p>
+                </div>
+            </div>
+        `;
+    }
+    else if (page === "/gross-income-calculator") { // Gross Income Calculator
+        pageContent = `
+            <div class="generic-header">
+                <div class="header-content">
+                    <h1 class="title">Gross Income Calculator</h1>
+                    <p class="description">Coming soon...</p>
+                </div>
+            </div>
+        `;
+    }    
     else { // Page Not Found
         pageContent = `
             <div class="generic-header">
@@ -399,25 +362,6 @@ function loadContent(page) {
     // Update only the content inside main-content, preserving breadcrumb-nav
     document.getElementById("breadcrumb-nav").innerHTML = '';
     mainContent.innerHTML = `<div id="breadcrumb-nav"></div>` + pageContent;
-
-    //Footer
-    mainContent.innerHTML += `
-        <footer id="site-footer">
-            <img src="assets/header_logo.svg" alt="Emporah Logo" id="footer-logo">
-            <div class="footer-info-links">
-                <a class="link">About</a>
-                <a class="link">Contact</a>
-                <a class="link">Help Centre</a>
-            </div>
-            <div class="footer-legal-links">
-                <a class="link">Terms</a>
-                <a class="link">Privacy Policy</a>
-            </div>
-            <div class="footer-legal-info"><a class="link">&copy; <span id="footer-year"></span> Emporah. All rights reserved.</a></div>
-        </footer>
-    `;
-
-    document.getElementById("footer-year").textContent = new Date().getFullYear();
 
     updateBreadcrumb(page);
 }
